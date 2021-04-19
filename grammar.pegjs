@@ -1,10 +1,16 @@
 {
-	function add_terms(a,b){
+
+	function same_keys(a, b){
+    	
+    }
+
+	function add_terms(a, b){
     	if(a.unit==b.unit){
         	return {number:a.number+b.number, unit:a.unit}
         }
-        return [a,"+",b]
+        return [a, "+", b]
     }
+    
 	function mul_factors(a, b){
     	console.log(a,b)
     	if(b.unit=="none"){
@@ -16,8 +22,9 @@
         if(a.unit=="V" && b.unit=="A"){
         	return {number:a.number*b.number, unit:"W"}
         }
-        return [a,"*",b]
+        return [a, "*", b]
     }
+    
     function div_factors(a, b){
     	if(b.unit=="none"){
         	return {number:a.number/b.number, unit:a.unit}
@@ -25,7 +32,7 @@
         if(a.unit==b.unit){
         	return {number:a.number/b.number, unit:"none"}
         }
-        return [a,"/",b]
+        return [a, "/", b]
     }
 }
 
@@ -61,20 +68,19 @@ Factor
 
 
 Number_Unit 
- = number:Number_Unitless unit:(Unit / Unit_Modified) {return {...number, unit:unit}}
+ = number:Number_Unitless unit:(Unit_Modified / Unit) {return {...number, unit:unit}}
 
 Number_Unitless "number-unitless"
  = _ [+-]?[0-9]+ ( '.' [0-9]+ )? {
 	return {number:parseFloat(text()), unit:{}};
 }
 
-
 _ "whitespace"
   = [ \t\n\r]*
   
  
 Unit_Modified
- = mod:("T"/"G"/"M"/"k"/"m"/"µ"/"n"/"p") unit:Unit {
+ = mod:("T"/"G"/"M"/"k"/"micro"/"m"/"µ"/"n"/"p"/"f") unit:Unit {
  	let exponent = {
     	T:12,
         G:9,
@@ -82,9 +88,9 @@ Unit_Modified
         k:3,
         m:-3,
         µ:-6,
-        "micro-":-6,
-        n:-6,
-        p:-9,
+        "micro":-6,
+        n:-9,
+        p:-12,
         f:-15
     }[mod];
     let out = {};
@@ -95,7 +101,7 @@ Unit_Modified
  }
  
 Unit "unit"
- = Amp / Volt / Ohm / Watt
+ = Amp / Volt / Ohm / Watt / Metre
   
 Amp "Amps"
  = "A" {return {A:0}}
@@ -107,7 +113,7 @@ Ohm "Ohm"
  = "Ohm"/"Ω" {return {Ω:0}}
  
 Watt "Watt"
- = "W" {return {W:0}}
+ = "W" {return {Wot:0}}
  
 Metre "Metre"
  = "m" {return {m:0}}
