@@ -1,65 +1,59 @@
 {
 
-	function same_keys(a, b){
-    	
-    }
+	function head(item){
+		return item[0];
+	}
+	function tail(item){
+		return item.slice(1);
+	}
+	function partition(arr, predicate){
+		let result_true = [];
+		let result_false = [];
+		for(let item of arr){
+			if(predicate(item)){
+				result_true.push(item);
+			}else{
+				result_false.push(item);
+			}
+		}
+		return [result_true, result_false];
+	}
 
-	function add_terms(a, b){
-    	if(a.unit==b.unit){
-        	return {number:a.number+b.number, unit:a.unit}
-        }
-        return [a, "+", b]
-    }
-    
-	function mul_factors(a, b){
-    	console.log(a,b)
-    	if(b.unit=="none"){
-        	return {number:a.number*b.number, unit:a.unit}
-        }
-        if(a.unit=="none"){
-        	return {number:a.number*b.number, unit:b.unit}
-        }
-        if(a.unit=="V" && b.unit=="A"){
-        	return {number:a.number*b.number, unit:"W"}
-        }
-        return [a, "*", b]
-    }
-    
-    function div_factors(a, b){
-    	if(b.unit=="none"){
-        	return {number:a.number/b.number, unit:a.unit}
-        }
-        if(a.unit==b.unit){
-        	return {number:a.number/b.number, unit:"none"}
-        }
-        return [a, "/", b]
-    }
+	function simplify(item){
+		let [op, ...args] = item;
+		switch (op) {
+			case "+":
+				return simplify_add(...args)
+			default:
+				return item;
+		}
+	}
+
+	function simplify_add(...items){
+		let [nums, other] = partition(items.map(simplify), item=>head(item)=="num")
+		
+		let num = ["num", nums.reduce((acc,cur)=>acc+cur[1],0)];
+		if (other.length){
+			return ["+",num,...other]
+		}
+		return num;
+	}
 }
 
 Expression
   = head:Term tail:(_ ("+" / "-") _ Term)* {
-      return tail.reduce(function(result, element) {
-        if (element[1] === "+") {
-        	return add_terms(result , element[3]);
-            
-        }
-        if (element[1] === "-") { return result - element[3]; }
-      }, head);
-    }
-    
-
+	  let result = tail.reduce(function(result, element) {
+		  return [element[1], result , element[3]];
+	  }, head);
+	  return [result, simplify(result)];
+	}
 
 Term
   = head:Factor tail:(_ ("*" / "/") _ Factor)* {
-      return tail.reduce(function(result, element) {
-        if (element[1] === "*") {
-        	return mul_factors(result , element[3]);
-        }
-        if (element[1] === "/") { 
-        	return div_factors(result , element[3]);
-        }
-      }, head);
-    }
+	  return tail.reduce(function(result, element) {
+		return [element[1], result, element[3]];
+	  }, head);
+	}
 
 Factor
   = "(" _ expr:Expression _ ")" { return expr; }
@@ -68,11 +62,11 @@ Factor
 
 
 Number_Unit 
- = number:Number_Unitless unit:(Unit_Modified / Unit) {return {...number, unit:unit}}
+ = number:Number_Unitless unit:(Unit_Modified / Unit) {return ["*", number, unit]}
 
 Number_Unitless "number-unitless"
  = _ [+-]?[0-9]+ ( '.' [0-9]+ )? {
-	return {number:parseFloat(text()), unit:{}};
+	return ["num", parseFloat(text())];
 }
 
 _ "whitespace"
@@ -80,40 +74,38 @@ _ "whitespace"
   
  
 Unit_Modified
- = mod:("T"/"G"/"M"/"k"/"micro"/"m"/"µ"/"n"/"p"/"f") unit:Unit {
+ = mod:("T"/"G"/"M"/"k"/"m"/"µ"/"n"/"p"/"f") unit:Unit {
  	let exponent = {
-    	T:12,
-        G:9,
-        M:6,
-        k:3,
-        m:-3,
-        µ:-6,
-        "micro":-6,
-        n:-9,
-        p:-12,
-        f:-15
-    }[mod];
-    let out = {};
-    for(let [key,val] of Object.entries(unit)){
-    	out[key] = val+exponent;
-    }
-    return out;
+		T:12,
+		G:9,
+		M:6,
+		k:3,
+		m:-3,
+		µ:-6,
+		n:-9,
+		p:-12,
+		f:-15
+	}[mod];
+	
+	return ["*", ["pow", ["num",10], ["num",exponent]], unit];
  }
  
 Unit "unit"
  = Amp / Volt / Ohm / Watt / Metre
   
 Amp "Amps"
- = "A" {return {A:0}}
+ = "A" {return ["sym","A"]}
  
 Volt "Volt"
- ="V" {return {V:0}}
+ ="V" {return ["sym","V"]}
  
 Ohm "Ohm"
- = "Ohm"/"Ω" {return {Ω:0}}
+ = "Ω" {return ["sym","Ω"]}
  
 Watt "Watt"
- = "W" {return {Wot:0}}
+ = "W" {return ["sym","W"]}
  
 Metre "Metre"
- = "m" {return {m:0}}
+ = "m" {return ["sym","m"]}
+
+// 3mW/mm = [3units][[10^-3][W^1]][[10^-3][m^-1]]

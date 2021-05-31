@@ -2,12 +2,18 @@
 	<head>
 		<title>Nick's Ohms Law Calculator</title>
 		<script defer src="third_party/peggy.js"></script>
+		<script defer src="util.js"></script>
 		<script defer src="main.js"></script>
+		<script defer src="replacement_rules.js"></script>
 		
 		<link href="style.css" rel="stylesheet" type="text/css"/>
 	</head>
 	<body>
 		<textarea id="input"></textarea>
-		<pre id="output"></pre>
+		<div id="intermediate_wrapper" class="green_outline">
+			<pre id="intermediate"></pre>
+		</div>
+		<div id="output" class="green_outline">
+		</div>
 	</body>
 </html>
