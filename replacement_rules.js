@@ -21,7 +21,7 @@ let replacement_rules = [
 	]
 ];
 
-apply_rules(replacement_rules, example);
+//apply_rules(replacement_rules, example);
 
 // apply each replacement rule to each match
 // if a replacement returns an executable function, execute it immediately
@@ -33,33 +33,96 @@ apply_rules(replacement_rules, example);
 // prioritise searching matches based on hard-coded rule priority (???)
 
 
-function apply_rules(expression, rules){
-	let queue = [];
-	for(let [rule, replacement] of rules){
-		let matches = match(rule, expression);
+function copy(item){
+	if(!Array.isArray(item)){
+		return item;
+	}
+	let result = []
+	for(let sub_item of item){
+		result.push(copy(sub_item))
+	}
+	return result;
+}
+
+function * enumerate(arr){
+	let cnt = 0;
+	for(let item of arr){
+		yield [cnt, item];
+		cnt++;
 	}
 }
 
+function * zip(arr1, arr2){
+	for(let i=0;i<Math.min(arr1.length, arr2.length);i++){
+		yield [arr1[i],arr2[i]];
+	}
+}
 
-function match(rule, expression){
-	for(let sub_expression of walk(expression)){
-		let [expr_type, ...expr_args] = sub_expression;
-		let [rule_type, ...rule_args] = rule;
-		
-		if(rule_type==="sym"){
-			return expression;
-		}else if (rule_type===expr_type){
-			let submatches = expr_args.map((item, index)=>match(rule_args[index], item))
-			if(submatches.every(item=>item)){
-				return expression;
-			}else{
-				return false;
-			}
-		}else{
-			return false;
+function apply_rules(expression, rules){
+	for(let [expr, expr_index] of tree_walk(expression)){
+		let [expr_type, ...expr_args] = expr;	
+		for(let [rule_index, rule] of enumerate(rules)){
+			let [rule_type, ...rule_args] = rule;
 		}
 	}
 }
+
+
+function * matches(rules, expression){
+	for(let [expr, expr_index] of tree_walk(expression)){
+		let [expr_type, ...expr_args] = expr;
+		
+		
+		for(let [rule_index, rule] of enumerate(rules)){
+			let [rule_type, ...rule_args] = rule;
+			if(rule_type==="sym"){
+				yield [rule, ["sym", expr]];
+				continue;
+			}else if (rule_type===expr_type){
+
+				
+
+				let submatches = expr_args.map((item, index)=>match(rule_args[index], item))
+				if(submatches.every(item=>item)){
+					return expr;
+				}else{
+					return false;
+				}
+			}
+		}
+	}
+}
+
+function match(rule, expression){
+	if(!Array.isArray(rule)){
+		if(!Array.isArray(expression)){
+			return rule===expression;
+		}
+		return false;
+	}
+	let [rule_type, ...rule_args] = rule;
+	if(!Array.isArray(expression)){
+		if(rule_type==="sym"){
+			return ["eq", ["sym", rule[1]], expression];
+		}
+	}
+	
+	let [expr_type, ...expr_args] = expression;
+	if(rule_type==="sym"){
+		// TODO: can only be allowed if that symbol was not already assigned to a non-matching expression??
+		return ["eq", ["sym", rule[1]], expression];
+	}else if(rule_type===expr_type){
+		let result = [];
+		for(let pair of zip(rule_args, expr_args)){
+			let sub_result = match(...pair)
+			if(!sub_result) return false;
+			result.push(sub_result);
+		}
+		return result;
+	}
+	return false;
+}
+
 
 function tree_copy(tree){
 }
@@ -72,18 +135,7 @@ function tree_index(tree, index_list){
 	return result;
 }
 
-function * tree_walk_index(tree, indexes){
-	let subtree = tree_index(tree,indexes)
-	if(!Array.isArray(subtree)){
-		return;
-	}
-	yield indexes;
-	for(let subtree_index = 1; subtree_index < subtree.length; subtree_index++){
-		for(let sub_indexes of tree_walk_index(tree, [...indexes, subtree_index])){
-		    yield sub_indexes
-		}
-	}
-}
+
 function * tree_walk(tree, indexes){
 	if(!Array.isArray(tree)){
 		return;
