@@ -61,20 +61,38 @@ function match(rule, expression){
 	}
 }
 
+function tree_copy(tree){
+}
 
-function * walk(tree){
-	// TODO: Fix me this doesn work
-	if(!Array.isArray(tree)){
-		yield tree;
+function tree_index(tree, index_list){
+	let result = tree;
+	for (index of index_list){
+		result = result[index]
+	}
+	return result;
+}
+
+function * tree_walk_index(tree, indexes){
+	let subtree = tree_index(tree,indexes)
+	if(!Array.isArray(subtree)){
 		return;
 	}
-	let [type,...args] = tree;
-	yield tree;
-	for(let subtree of args){
-		if (Array.isArray(subtree)){
-			yield walk(subtree)
-		}else{
-			yield subtree;
+	yield indexes;
+	for(let subtree_index = 1; subtree_index < subtree.length; subtree_index++){
+		for(let sub_indexes of tree_walk_index(tree, [...indexes, subtree_index])){
+		    yield sub_indexes
+		}
+	}
+}
+function * tree_walk(tree, indexes){
+	if(!Array.isArray(tree)){
+		return;
+	}
+	yield [tree, indexes];
+	for(let subtree_index = 1; subtree_index < tree.length; subtree_index++){
+		let subtree = tree[subtree_index];
+		for(let [sub_sub_tree, sub_indexes] of tree_walk(subtree, [...indexes, subtree_index])){
+		    yield [sub_sub_tree, sub_indexes];
 		}
 	}
 }
