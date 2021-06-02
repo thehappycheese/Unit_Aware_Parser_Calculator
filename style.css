@@ -34,3 +34,7 @@ body{
 	margin-top:20px;
 	font-family: sans-serif;
 }
+
+.fname{
+	font-weight: bold;
+}

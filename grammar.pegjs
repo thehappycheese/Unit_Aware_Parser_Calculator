@@ -1,57 +1,31 @@
 {
 
-	function head(item){
-		return item[0];
-	}
-	function tail(item){
-		return item.slice(1);
-	}
-	function partition(arr, predicate){
-		let result_true = [];
-		let result_false = [];
-		for(let item of arr){
-			if(predicate(item)){
-				result_true.push(item);
-			}else{
-				result_false.push(item);
-			}
-		}
-		return [result_true, result_false];
-	}
-
-	function simplify(item){
-		let [op, ...args] = item;
-		switch (op) {
-			case "+":
-				return simplify_add(...args)
-			default:
-				return item;
-		}
-	}
-
-	function simplify_add(...items){
-		let [nums, other] = partition(items.map(simplify), item=>head(item)=="num")
-		
-		let num = ["num", nums.reduce((acc,cur)=>acc+cur[1],0)];
-		if (other.length){
-			return ["+",num,...other]
-		}
-		return num;
-	}
 }
 
 Expression
-  = head:Term tail:(_ ("+" / "-") _ Term)* {
-	  let result = tail.reduce(function(result, element) {
-		  return [element[1], result , element[3]];
-	  }, head);
-	  return [result, simplify(result)];
+	= head:Term tail:( _ ("+" / "-") _ Term)* {
+		let result = tail.reduce((head, tail) =>{
+				let [/*whitespace*/, op, /*whitespace*/, term] = tail;
+				if(op==="+"){
+					return ["add", head, term];
+				}else{
+					return ["add", head, ["neg", term]];
+				}
+			},
+			head
+		);
+		return result;
 	}
 
 Term
   = head:Factor tail:(_ ("*" / "/") _ Factor)* {
-	  return tail.reduce(function(result, element) {
-		return [element[1], result, element[3]];
+	  return tail.reduce((head, tail)=>{
+		let [/*whitespace*/, op, /*whitespace*/, term] = tail;
+		if(op==="*"){
+			return ["mul", head, term];
+		}else{
+			return ["mul", head, ["pow", term, ["num", -1]]];
+		}
 	  }, head);
 	}
 
@@ -87,7 +61,7 @@ Unit_Modified
 		f:-15
 	}[mod];
 	
-	return ["*", ["pow", ["num",10], ["num",exponent]], unit];
+	return ["mul", ["pow", ["num",10], ["num",exponent]], unit];
  }
  
 Unit "unit"

@@ -44,19 +44,7 @@ function copy(item){
 	return result;
 }
 
-function * enumerate(arr){
-	let cnt = 0;
-	for(let item of arr){
-		yield [cnt, item];
-		cnt++;
-	}
-}
 
-function * zip(arr1, arr2){
-	for(let i=0;i<Math.min(arr1.length, arr2.length);i++){
-		yield [arr1[i],arr2[i]];
-	}
-}
 
 function apply_rules(expression, rules){
 	for(let [expr, expr_index] of tree_walk(expression)){
@@ -93,7 +81,7 @@ function * matches(rules, expression){
 	}
 }
 
-function match(rule, expression){
+function match(rule, expression, symbols=[]){
 	if(!Array.isArray(rule)){
 		if(!Array.isArray(expression)){
 			return rule===expression;
