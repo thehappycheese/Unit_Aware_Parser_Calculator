@@ -33,16 +33,7 @@ let replacement_rules = [
 // prioritise searching matches based on hard-coded rule priority (???)
 
 
-function copy(item){
-	if(!Array.isArray(item)){
-		return item;
-	}
-	let result = []
-	for(let sub_item of item){
-		result.push(copy(sub_item))
-	}
-	return result;
-}
+
 
 
 
@@ -58,9 +49,9 @@ function apply_rules(expression, rules){
 
 function * matches(rules, expression){
 	for(let [expr, expr_index] of tree_walk(expression)){
+		
 		let [expr_type, ...expr_args] = expr;
-		
-		
+
 		for(let [rule_index, rule] of enumerate(rules)){
 			let [rule_type, ...rule_args] = rule;
 			if(rule_type==="sym"){

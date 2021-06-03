@@ -1,7 +1,15 @@
+let F = {
+	head:(item)=>{
+		return item[0];
+	},
+	tail:(item)=>{
+		return item.slice(1);
+	}
+}
+
 function head(item){
 	return item[0];
 }
-
 function tail(item){
 	return item.slice(1);
 }
@@ -12,6 +20,17 @@ function * enumerate(arr){
 		yield [cnt, item];
 		cnt++;
 	}
+}
+
+function copy(item){
+	if(!Array.isArray(item)){
+		return item;
+	}
+	let result = []
+	for(let sub_item of item){
+		result.push(copy(sub_item))
+	}
+	return result;
 }
 
 function * zip(arr1, arr2){
@@ -34,12 +53,17 @@ function partition(arr, predicate){
 }
 
 function print_tree(tree, depth=0){
-	let space = `<div style="display:inline-block;width:${depth*20}px;height:1em;border-bottom:1px solid grey;"></div>`;
+	let space = `<div style="display:inline-block;width:${depth*20}px;height:1em;border-bottom:1px solid grey;">${new Array(depth*4).fill("&nbsp;").join("")}</div>`;
 	if(Array.isArray(tree)){
-		if(tree.every(item=>!Array.isArray(item))){
-			return space + `[<span class="fname">${head(tree)}</span> ${tail(tree).join(" ")}]`
+		let [head, ...tail]=tree;
+		if(head==="num"){
+			return space + `<span class="fnum">${tail[0]}</span>`
+		}else if(tail.every(item=>Array.isArray(item) && item[0]==="num")){
+			return space + `[<span class="fname">${head}</span> ${tail.map(([,val])=>`<span class="fnum">${val}</span>`).join(" ")}]`;
+		}else if(tail.every(item => !Array.isArray(item))){
+			return space + `[<span class="fname">${head}</span> ${tail.join(" ")}]`
 		}else{
-			return space + `[<span class="fname">${head(tree)}</span><br>${tail(tree).map(item=>print_tree(item,depth+1)).join("<br>")}<br>${space}]`;
+			return space + `[<span class="fname">${head}</span><br>${tail.map(item=>print_tree(item,depth+1)).join("<br>")}<br>${space}]`;
 		}
 	}else{
 		return tree.toString();

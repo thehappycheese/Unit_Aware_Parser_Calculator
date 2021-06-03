@@ -38,3 +38,7 @@ body{
 .fname{
 	font-weight: bold;
 }
+.fnum{
+	font-weight: bold;
+	color: lightseagreen;
+}
