@@ -1,4 +1,4 @@
-
+"use strict";
 if (localStorage.getItem("inp")){
 	document.querySelector("#input").value = localStorage.getItem("inp");
 }
@@ -28,8 +28,35 @@ function update_on_grammar(){
 	})
 }
 
-document.querySelector("#input").addEventListener("keyup",change_handler);
-document.querySelector("#input").addEventListener("click",change_handler);
+
+var input_textarea = document.querySelector("#input");
+input_textarea.addEventListener("keyup",change_handler);
+input_textarea.addEventListener("keyup",replace_while_typing);
+input_textarea.addEventListener("click",change_handler);
+
+function replace_while_typing(e){
+	if(input_textarea.selectionStart === input_textarea.selectionEnd){
+		let sel_start = input_textarea.selectionStart ;
+		let v = input_textarea.value;
+		if (v[sel_start-1]==="*"){
+			input_textarea.value = v.slice(0, sel_start-1)+"·"+v.slice(sel_start);
+			input_textarea.selectionStart = sel_start;
+			input_textarea.selectionEnd = sel_start;
+		}
+		if (v.slice(sel_start-3,sel_start)?.toLowerCase()==="ohm"){
+			input_textarea.value = v.slice(0, sel_start-3)+"Ω"+v.slice(sel_start);
+			input_textarea.selectionStart = sel_start-2;
+			input_textarea.selectionEnd = sel_start-2;
+		}
+		if (v.slice(sel_start-5,sel_start)?.toLowerCase()==="micro"){
+			input_textarea.value = v.slice(0, sel_start-5)+"µ"+v.slice(sel_start);
+			input_textarea.selectionStart = sel_start-4;
+			input_textarea.selectionEnd = sel_start-4;
+		}
+
+		
+	}
+}
 
 function change_handler(e){
 	if(!grammar) return;

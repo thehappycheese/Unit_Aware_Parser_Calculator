@@ -58,14 +58,16 @@ function print_tree(tree, depth=0){
 		let [head, ...tail]=tree;
 		if(head==="num"){
 			return space + `<span class="fnum">${tail[0]}</span>`
+		}else if(head==="sym"){
+			return space + `<span class="fsym">${tail[0]}</span>`
 		}else if(tail.every(item=>Array.isArray(item) && item[0]==="num")){
-			return space + `[<span class="fname">${head}</span> ${tail.map(([,val])=>`<span class="fnum">${val}</span>`).join(" ")}]`;
-		}else if(tail.every(item => !Array.isArray(item))){
-			return space + `[<span class="fname">${head}</span> ${tail.join(" ")}]`
+			return space + `[<span class="fname">${head}</span> ${tail.map((item)=>print_tree(item,0)).join(" ")}]`;
+		/*}else if(tail.every(item => !Array.isArray(item))){
+			return space + `[<span class="fname">${head}</span> ${tail.join(" ")}]`*/
 		}else{
 			return space + `[<span class="fname">${head}</span><br>${tail.map(item=>print_tree(item,depth+1)).join("<br>")}<br>${space}]`;
 		}
 	}else{
-		return tree.toString();
+		return space+tree.toString();
 	}
 }

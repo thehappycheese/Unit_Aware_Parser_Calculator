@@ -11,13 +11,17 @@ let replacement_rules = [
 		["mul",["sym","A"],["sym","B"]],
 		["mul",["sym","B"],["sym","A"]]
 	],
+	[
+		["mul",["num",0],["any"]],
+		["num",0]
+	],
 	[   // A<num> + B<num> => num_sum(A,B)
-		["add",["", ["num", ["sym","A"]],["num", ["sym","B"]]],
+		["add", ["num", ["sym","A"]],["num", ["sym","B"]]],
 		["call","num_add",[["sym","B"],["sym","A"]]]
 	],
 	[   // A<num> * B<num> => num_mul(A,B)
 		["mul",["num", ["sym","A"]],["num", ["sym","B"]]],
-		["call","num_mul",[["sym","A"],["sym","B"]]]]
+		["call","num_mul",[["sym","A"],["sym","B"]]]
 	]
 ];
 
