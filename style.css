@@ -4,6 +4,7 @@ body{
 	background-color:#333;
 	font-size: 1.3em;
 	padding:30px;
+	font-family: sans-serif;
 }
 
 #input{
@@ -19,24 +20,25 @@ body{
 	border: 1px solid seagreen;
 	padding:10px;
 	color:darkseagreen;
+	margin-top: 20px;
 }
 
 #intermediate{
 	margin:0px;
 }
 #intermediate_wrapper{
-	margin-top: 20px;
+	
 	max-height: 400px;
 	overflow-y: scroll;
 }
 
 #output{
-	margin-top:20px;
-	font-family: sans-serif;
+	
 }
 
 .fname{
 	font-weight: bold;
+	color:#4db04d;
 }
 .fnum{
 	font-weight: bold;
@@ -45,4 +47,10 @@ body{
 .fsym{
 	font-weight: bold;
 	color: lightcoral;
+}
+
+.print_tree_error{
+	font-weight: bold;
+	font-style: italic;
+	color: lightsalmon;
 }

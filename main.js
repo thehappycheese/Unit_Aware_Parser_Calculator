@@ -1,7 +1,15 @@
 "use strict";
+
+var input_textarea = document.querySelector("#input");
+input_textarea.addEventListener("keyup",change_handler);
+input_textarea.addEventListener("keyup",replace_while_typing);
+input_textarea.addEventListener("click",change_handler);
+
 if (localStorage.getItem("inp")){
-	document.querySelector("#input").value = localStorage.getItem("inp");
+	input_textarea.value = localStorage.getItem("inp");
 }
+
+document.querySelector("#rule_list").innerHTML = print_tree(replacement_rules, true);
 
 let grammar = undefined;
 let last_grammar = "";
@@ -29,10 +37,7 @@ function update_on_grammar(){
 }
 
 
-var input_textarea = document.querySelector("#input");
-input_textarea.addEventListener("keyup",change_handler);
-input_textarea.addEventListener("keyup",replace_while_typing);
-input_textarea.addEventListener("click",change_handler);
+
 
 function replace_while_typing(e){
 	if(input_textarea.selectionStart === input_textarea.selectionEnd){
@@ -61,11 +66,11 @@ function replace_while_typing(e){
 function change_handler(e){
 	if(!grammar) return;
 	document.querySelector("#intermediate").innerHTML = "";
-	localStorage.setItem("inp", document.querySelector("#input").value);
+	localStorage.setItem("inp", input_textarea.value);
 	
 	let intermediate;
 	try{
-		intermediate = grammar.parse(document.querySelector("#input").value);
+		intermediate = grammar.parse(input_textarea.value);
 		document.querySelector("#intermediate").innerHTML = JSON.stringify(intermediate,null,2);
 	}catch(e){
 		document.querySelector("#intermediate").innerHTML = e.message;
@@ -74,8 +79,11 @@ function change_handler(e){
 
 	let result;
 	try{
-		result = print_tree(intermediate);
-		document.querySelector("#output").innerHTML = result;
+		result = [];
+		for(let item of tree_walk(intermediate)){
+			result.push(print_tree(item));
+		}
+		document.querySelector("#output").innerHTML = result.join("<br>");
 	}catch(e){
 		document.querySelector("#output").innerHTML = e.message;
 	}
