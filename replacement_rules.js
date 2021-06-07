@@ -1,52 +1,51 @@
 let example = ["mul", ["add",["num",10],["num",15]], ["mul",["num", 2],["sym", "m"]]]
 
-let replacement_rules = [
-	"rules",
+let axioms = [
 	[
 		// 0*A => 0
-		"reduce",
+		"rewrite",
 		["mul",["num",0],["sym","A"]],
 		["num",0]
 	],
 	[
 		// --A => A
-		"reduce",
+		"rewrite",
 		["neg",["neg",["sym","A"]]],
 		["sym","A"]
 	],
 	[
 		// 1*A => A
-		"reduce",
+		"rewrite",
 		["mul",["num",1],["sym","A"]],
 		["sym","A"]
 	],
 	[
 		// A*(B*C) => (A*B)*C
-		"reduce",
+		"rewrite",
 		["mul",["sym","A"],["mul",["sym","B"],["sym","C"]]],
 		["mul",["sym","B"],["mul",["sym","A"],["sym","C"]]],
 	],
 	[
 		// A*B => B*A
-		"reduce",
+		"rewrite",
 		["mul",["sym","A"],["sym","B"]],
 		["mul",["sym","B"],["sym","A"]]
 	],
 	[
 		// A+B => B+A
-		"reduce",
+		"rewrite",
 		["add",["sym","A"],["sym","B"]],
 		["add",["sym","B"],["sym","A"]]
 	],
 	[
 		// A+(B+C) => (A+B)+C
-		"reduce",
+		"rewrite",
 		["mul",["sym","A"],["mul",["sym","B"],["sym","C"]]],
 		["mul",["sym","B"],["mul",["sym","A"],["sym","C"]]],
 	],
 	[
 		// A+(B+C) => (A+B)+C
-		"reduce",
+		"rewrite",
 		["mul",["sym","A"],["mul",["sym","B"],["sym","C"]]],
 		["mul",["sym","B"],["mul",["sym","A"],["sym","C"]]],
 	],
@@ -66,6 +65,21 @@ let replacement_rules = [
 
 
 
+function measure_complexity(term){
+
+}
+function unify_terms(term1,term2){
+
+}
+function normalise_term(term){
+
+}
+
+function knuth_bendix_completion(axioms){
+	let rewrite_rules = [];
+
+	return rewrite_rules;
+}
 
 
 
