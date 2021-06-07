@@ -14,26 +14,26 @@
 	- [3.4. Ordering of Terms by Complexity](#34-ordering-of-terms-by-complexity)
 	- [3.5. Structural Equality of Terms (Literally Equal)](#35-structural-equality-of-terms-literally-equal)
 	- [3.6. Notation used for Substitution](#36-notation-used-for-substitution)
-- [3.7. Unification of Terms (Pattern Matching)](#37-unification-of-terms-pattern-matching)
-	- [3.8. Subsumption (Instances Of)](#38-subsumption-instances-of)
-	- [3.8.1. Subsumption Ordering](#381-subsumption-ordering)
-	- [3.9. Intersection of terms](#39-intersection-of-terms)
-- [4. Rewrite Rules](#4-rewrite-rules)
-	- [4.1. Definition](#41-definition)
-	- [4.2. Noetherian Rules](#42-noetherian-rules)
-	- [4.3. Normal Form of a Term](#43-normal-form-of-a-term)
-- [5. Proofing if Terms are Equivalent](#5-proofing-if-terms-are-equivalent)
-	- [5.1. Word Problem](#51-word-problem)
-	- [5.2. Rewrite Proof vs Non-Rewrite Proof](#52-rewrite-proof-vs-non-rewrite-proof)
-- [6. Critical Terms](#6-critical-terms)
-- [7. Superposition to find Critical Terms](#7-superposition-to-find-critical-terms)
-- [8. Confluence](#8-confluence)
-- [9. Canonical Rewrite Rules](#9-canonical-rewrite-rules)
-- [10. Decision Procedure vs Semi Decision Procedure](#10-decision-procedure-vs-semi-decision-procedure)
-- [11. Knuth-Bendix Completion Algorithm (KBC)](#11-knuth-bendix-completion-algorithm-kbc)
-	- [11.1. Psudo-Code](#111-psudo-code)
-	- [11.2. Possible Outcomes](#112-possible-outcomes)
-	- [Limitations of KBC](#limitations-of-kbc)
+- [4. Unification of Terms (Pattern Matching)](#4-unification-of-terms-pattern-matching)
+	- [4.1. Subsumption (Instances Of)](#41-subsumption-instances-of)
+	- [4.2. Subsumption Ordering](#42-subsumption-ordering)
+	- [4.3. Intersection of terms](#43-intersection-of-terms)
+- [5. Rewrite Rules](#5-rewrite-rules)
+	- [5.1. Definition](#51-definition)
+	- [5.2. Noetherian Rules](#52-noetherian-rules)
+	- [5.3. Normal Form of a Term](#53-normal-form-of-a-term)
+- [6. Proofing if Terms are Equivalent](#6-proofing-if-terms-are-equivalent)
+	- [6.1. Word Problem](#61-word-problem)
+	- [6.2. Rewrite Proof vs Non-Rewrite Proof](#62-rewrite-proof-vs-non-rewrite-proof)
+- [7. Critical Terms](#7-critical-terms)
+- [8. Superposition to find Critical Terms](#8-superposition-to-find-critical-terms)
+- [9. Confluence](#9-confluence)
+- [10. Canonical Rewrite Rules](#10-canonical-rewrite-rules)
+- [11. Decision Procedure vs Semi Decision Procedure](#11-decision-procedure-vs-semi-decision-procedure)
+- [12. Knuth-Bendix Completion Algorithm (KBC)](#12-knuth-bendix-completion-algorithm-kbc)
+	- [12.1. Psudo-Code](#121-psudo-code)
+	- [12.2. Possible Outcomes](#122-possible-outcomes)
+	- [12.3. Limitations of KBC](#123-limitations-of-kbc)
 
 ## 1. Sources
 
@@ -182,7 +182,7 @@ $$
 t_1[x/t_3] = t_2
 $$
 
-## 3.7. Unification of Terms (Pattern Matching)
+## 4. Unification of Terms (Pattern Matching)
 
 Unification is the process of pattern matching terms by finding substitutions
 that render both terms identical;
@@ -197,7 +197,7 @@ This feels very much like the `match` keyword in Rust, or the way that Haskell
 works in general. Therefore, in my head, this is `Pattern Matching`.
 
 
-### 3.8. Subsumption (Instances Of)
+### 4.1. Subsumption (Instances Of)
 
 If two terms can be `unified` then the less general term is said to be an
 `instance of` the more general term. Or phrased differently; the more general
@@ -220,7 +220,7 @@ $$
 
 
 
-### 3.8.1. Subsumption Ordering
+### 4.2. Subsumption Ordering
 
 Let $\textcolor{lime}{\ge_t}$ be defined as the subsumption ordering such that
 
@@ -234,7 +234,7 @@ Again:
 - $t_a$ can be expressed by substituting $t_c$ into $t_b$
 - $t_a$ is said to be an `instance` of $t_b$
 
-### 3.9. Intersection of terms
+### 4.3. Intersection of terms
 
 Let the notation $t^*$ indicate the infinite set of terms that are `instances` of $t$
 - For terms $t_1$ and $t_2$,
@@ -247,9 +247,9 @@ Let the notation $t^*$ indicate the infinite set of terms that are `instances` o
 
 
 
-## 4. Rewrite Rules
+## 5. Rewrite Rules
 
-### 4.1. Definition
+### 5.1. Definition
 
 Let $R$ be a set of rewrite rules
 
@@ -278,7 +278,7 @@ $$
 > Note: In practical applications sometimes complexity is unchanged and this
 > leads to awful nonsense.
 
-### 4.2. Noetherian Rules
+### 5.2. Noetherian Rules
 
 $R$ is `Noetherian` if it has the following 3 properties:
 
@@ -299,14 +299,14 @@ If $R$ is `Noetherian`
 - `Local Confluence` is the same as `Confluence`
 - There are no infinite chains of rules
 
-### 4.3. Normal Form of a Term
+### 5.3. Normal Form of a Term
 
 If a set of rewrite rules are successively applied to a term until no more rules
 can be applied, then the term is said to be in `Normal Form`.
 
-## 5. Proofing if Terms are Equivalent
+## 6. Proofing if Terms are Equivalent
 
-### 5.1. Word Problem
+### 6.1. Word Problem
 
 The word problem is the problem of proofing that two sides of an equation
 represent the same thing. For example, prove that the two sides of the following
@@ -314,7 +314,7 @@ are the same:
 
 $$(x-1)(x+2) = x^2 + 3x - 3$$
 
-### 5.2. Rewrite Proof vs Non-Rewrite Proof
+### 6.2. Rewrite Proof vs Non-Rewrite Proof
 
 If a proof can occur by applying rewrite rules only in the forward direction,
 then it is called a `Rewrite Proof`.
@@ -329,7 +329,7 @@ the goal is to generate a set of rewrite rules which are comprehensive enough to
 eliminate the need for `Non-Rewrite Proofs`. To that end, finding
 `Critical Terms` in the system is required.
 
-## 6. Critical Terms
+## 7. Critical Terms
 
 If a critical term is found to arise from a given $R$ then it is possible to
 modify $R$ such that a `rewrite proof` is possible.
@@ -341,7 +341,7 @@ modify $R$ such that a `rewrite proof` is possible.
   - Superposition of `first-order` terms will yield a single most general form.
 
 
-## 7. Superposition to find Critical Terms
+## 8. Superposition to find Critical Terms
 
 Superposition refers to the `unification` of two terms from $Left(R)$
 
@@ -360,7 +360,7 @@ Superposition of two rules can sometimes lead to the discovery of new rules.
 
 Whenever a new rule is added, new superpositions can be considered which may lead to new rules.
 
-## 8. Confluence
+## 9. Confluence
 
 Confluence is related to the question of the existence of a `rewrite proof` for all `critical pairs`.
 Can we keep adding rules until a `rewrite proof` is possible for all critical pairs?
@@ -397,20 +397,20 @@ flowchart TD
 - However if $R$ is `noetherian` then `confluence` is equivalent to
   `local confluence`.
 
-## 9. Canonical Rewrite Rules
+## 10. Canonical Rewrite Rules
 
 The `cannonical` set of rewrite rules are both `noetherian` and `confluent`.
 Every term has a unique `normal form`. This is called the `canonical representation` of the term.
 
 If the rewrite rules are `canonical` then it can be used to test the validity of any theorem t1=t2 by reducing both terms to canonical form.
 
-## 10. Decision Procedure vs Semi Decision Procedure
+## 11. Decision Procedure vs Semi Decision Procedure
 
 **??**
 
-## 11. Knuth-Bendix Completion Algorithm (KBC)
+## 12. Knuth-Bendix Completion Algorithm (KBC)
 
-### 11.1. Psudo-Code
+### 12.1. Psudo-Code
 
 The algorithm is:
 
@@ -424,7 +424,7 @@ The algorithm is:
     - Superpose the new rule on all existing rules (including self) and
       introduce each critical pair into $A$
 
-### 11.2. Possible Outcomes
+### 12.2. Possible Outcomes
 
 The algorithm may do one of the following:
 
@@ -448,7 +448,7 @@ The algorithm may do one of the following:
       for a given rewrite proof.
     - Invalid equations cannot be proven invalid
 
-### Limitations of KBC
+### 12.3. Limitations of KBC
 
 1. Very hard to find a method of ordering $\textcolor{orange}{>_r}$ that suits particular needs.
 2. In many practical cases the confluent set of rules is infinite.
