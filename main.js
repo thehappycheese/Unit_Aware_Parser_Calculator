@@ -9,7 +9,7 @@ if (localStorage.getItem("inp")){
 	input_textarea.value = localStorage.getItem("inp");
 }
 
-document.querySelector("#rule_list").innerHTML = print_tree(replacement_rules, true);
+document.querySelector("#rule_list").innerHTML = print_tree(axioms, true);
 
 let grammar = undefined;
 let last_grammar = "";
@@ -31,11 +31,17 @@ function update_on_grammar(){
 			return;
 		}
 		last_grammar = text;
-		grammar = peggy.generate(text);
+		grammar = peggy.generate(text,);
 		change_handler();
 	})
 }
 
+let replace_while_typing_rules = [
+	new Replace_While_Typing("*","·"),
+	new Replace_While_Typing("ohm","Ω"),
+	new Replace_While_Typing("micro","µ"),
+	new Replace_While_Typing("-->","⟶"),
+]
 
 
 
@@ -43,23 +49,13 @@ function replace_while_typing(e){
 	if(input_textarea.selectionStart === input_textarea.selectionEnd){
 		let sel_start = input_textarea.selectionStart ;
 		let v = input_textarea.value;
-		if (v[sel_start-1]==="*"){
-			input_textarea.value = v.slice(0, sel_start-1)+"·"+v.slice(sel_start);
-			input_textarea.selectionStart = sel_start;
-			input_textarea.selectionEnd = sel_start;
-		}
-		if (v.slice(sel_start-3,sel_start)?.toLowerCase()==="ohm"){
-			input_textarea.value = v.slice(0, sel_start-3)+"Ω"+v.slice(sel_start);
-			input_textarea.selectionStart = sel_start-2;
-			input_textarea.selectionEnd = sel_start-2;
-		}
-		if (v.slice(sel_start-5,sel_start)?.toLowerCase()==="micro"){
-			input_textarea.value = v.slice(0, sel_start-5)+"µ"+v.slice(sel_start);
-			input_textarea.selectionStart = sel_start-4;
-			input_textarea.selectionEnd = sel_start-4;
-		}
 
-		
+		replace_while_typing_rules.map(item=>{
+			[v, sel_start] = item.do_replace(v,sel_start);
+		})
+		input_textarea.value = v;
+		input_textarea.selectionStart = sel_start;
+		input_textarea.selectionEnd = sel_start;
 	}
 }
 

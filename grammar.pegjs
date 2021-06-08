@@ -2,6 +2,18 @@
 
 }
 
+Thingo = Equation / RewriteRule / Expression
+
+Equation
+	= head:Expression _ "=" _ tail:Expression {
+		return ["equ", head, tail];
+	}
+
+RewriteRule
+	= head:Expression _ "⟶" _ tail:Expression {
+		return ["rew", head, tail];
+	}
+
 Expression
 	= head:Term tail:( _ ("+" / "-") _ Term)* {
 		let result = tail.reduce((head, tail) =>{
