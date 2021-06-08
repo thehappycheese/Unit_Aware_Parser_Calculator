@@ -145,11 +145,16 @@ function match(rule, expression, symbols=[]){
 	return false;
 }
 
-
-function tree_copy(tree){
+function tree_max_depth(tree, depth=0){
+	if(!Array.isArray(tree)) return depth;
+	let [head, ...tail] = tree;
+	return tail.reduce((deepest_so_far, subtree) =>
+		Math.max(deepest_so_far, tree_depth(subtree, depth+1))
+	, depth);
 }
 
-function tree_index(tree, index_list){
+// TODO: rename... this is like the pandas .loc() function. maybe tree_loc() ?
+function tree_lookup(tree, index_list){
 	let result = tree;
 	for (index of index_list){
 		result = result[index]

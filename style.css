@@ -4,6 +4,7 @@ html{
 	padding: 0;
 	height:100%;
 }
+
 body{
 	background-color:#333;
 	font-size: 1.3em;
@@ -11,54 +12,57 @@ body{
 	padding:0;
 	font-family: sans-serif;
 	display:grid;
-	height:100%;
+	padding:10px;
+	height:calc(100% - 20px);
 	grid-template-rows: 50px 1fr;
-	grid-template-columns: 1fr 1fr 1fr 1fr;
-
+	grid-template-columns: 1fr 1fr 1fr;
+	gap:4px;
+	color:aliceblue;
 }
 
 #input{
 	background-color:#222;
+	border: 1px solid seagreen;
 	color:aliceblue;
 	font-size: 1.5em;
 	font-family: monospace;
 	display:block;
-	grid-column: 1/5;
+	grid-column: 1/4;
 }
 
 .green_outline{
 	border: 1px solid seagreen;
 	padding:10px;
 	color:darkseagreen;
+	background-color:#222;
 }
-/* 
-#intermediate{
-	margin:0px;
-} */
 
 #column_container{
 	display: grid;
-	
 	grid-template-rows: 100%;
 }
+
 .column{
 	display: grid;
 	grid-template-rows: auto 1fr;
+	min-height: 0;
 }
+
 .column :nth-child(2){
 	overflow-y: scroll;
+	min-height: 0;
 }
-
-
 
 .fname{
 	font-weight: bold;
-	color:#4db04d;
+	color:lightskyblue;
 }
+
 .fnum{
 	font-weight: bold;
 	color: lightseagreen;
 }
+
 .fsym{
 	font-weight: bold;
 	color: lightcoral;

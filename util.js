@@ -1,18 +1,12 @@
-let F = {
-	head: (item) => {
-		return item[0];
-	},
-	tail: (item) => {
-		return item.slice(1);
-	}
-}
 
-function head(item) {
-	return item[0];
-}
-function tail(item) {
-	return item.slice(1);
-}
+
+// function head(item) {
+// 	return item[0];
+// }
+
+// function tail(item) {
+// 	return item.slice(1);
+// }
 
 function* enumerate(arr) {
 	let cnt = 0;
@@ -22,13 +16,13 @@ function* enumerate(arr) {
 	}
 }
 
-function copy(item) {
+function tree_copy(item) {
 	if (!Array.isArray(item)) {
 		return item;
 	}
 	let result = []
 	for (let sub_item of item) {
-		result.push(copy(sub_item))
+		result.push(tree_copy(sub_item))
 	}
 	return result;
 }
