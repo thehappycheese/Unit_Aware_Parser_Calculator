@@ -1,7 +1,9 @@
 # Research <!-- omit in toc -->
 
 > Note, the following document is intended to be viewed in Visual Studio Code
-> with extensions for KaTex Math and the Mermaid diagram language
+> with extensions for KaTex Math and the Mermaid diagram language If you are
+> looking at the published HTML file, the markdown source is here
+> <https://github.com/thehappycheese/Unit_Aware_Parser_Calculator/blob/main/readme_extras/reduction_orderings.md>
 
 > Also Note: I'm no expert in this field, the notes below are probably subtly wrong in ways that I don't understand yet. Don't rely on them as accurate.
 
@@ -37,10 +39,14 @@
 
 ## 1. Sources
 
-Notes gathered (roughly) from this series of YouTube videos:
+I gathered these notes (to the best of my own understanding) from this series of
+YouTube videos by the excellent youtuber `jin xing lim`:
 <https://www.youtube.com/watch?v=AP8L3OZxO-k>
 
+Probably I should try to find and read the sources used in the youtube video as well.
 
+And from various Wikipedia pages such as
+<https://en.wikipedia.org/wiki/Knuth%E2%80%93Bendix_completion_algorithm>
 
 ## 2. Notation
 
@@ -196,6 +202,7 @@ $$
 This feels very much like the `match` keyword in Rust, or the way that Haskell
 works in general. Therefore, in my head, this is `Pattern Matching`.
 
+**??** I don't quite understand 'partial' unification, where one term can be unified with a subterm of another... potentially leaving other subterms and variables 'free'?
 
 ### 4.1. Subsumption (Instances Of)
 
@@ -240,7 +247,7 @@ Let the notation $t^*$ indicate the infinite set of terms that are `instances` o
 - For terms $t_1$ and $t_2$,
   - Let $t_3^*$ be the union $t_1^* \land t_2^*$
   - If the $t_3^*$ is not empty, then
-    - both $t_1$ and $t_2$ can be applied to any term in $t_3^*$
+    - both $t_1$ and $t_2$ can be unified with any term in $t_3^*$
     - $t_3$ is the most general form of $t_3^*$.
     - $t_3$ is a `critical term`.
   - Otherwise $t_1$ and $t_2$ are `unrelated`
