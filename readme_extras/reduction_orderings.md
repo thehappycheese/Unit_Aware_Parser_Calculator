@@ -231,7 +231,7 @@ $$
 Again:
 
 - $t_b$ is the more general form of $t_a$
-- $t_a$ can be expressed by substituting $t_c$ into $t_b$
+- $t_a$ can be expressed by substituting some other term ($t_c$ in the example above) into $t_b$
 - $t_a$ is said to be an `instance` of $t_b$
 
 ### 4.3. Intersection of terms
@@ -286,9 +286,9 @@ $R$ is `Noetherian` if it has the following 3 properties:
    elements according to complexity (as defined by the $\textcolor{orange}{>_r}$
    operator).
 2. **Stable:** $t_a \textcolor{orange}{>_r} t_b \blue\implies t_a[t_c/x] \textcolor{orange}{>_r} t_b[t_c/x]$
-   - eg: $x+y \textcolor{orange}{>_r} x \blue\implies (a+b)+y\textcolor{orange}{>_r} a+b \quad \text{where} \quad t=a+b$
+   - eg: $x+y \textcolor{orange}{>_r} x \blue\implies (a+b)+y\textcolor{orange}{>_r} a+b \quad \text{where} \quad t_c=a+b$
 3. **Monotonic:** $t_a \textcolor{orange}{>_r} t_b \blue\implies t_c[t_a/x] \textcolor{orange}{>_r} t_c[t_b/x]$
-   - eg: $a+b \textcolor{orange}{>_r} a \blue\implies (a+b)+1 \textcolor{orange}{>_r} a+1\quad \text{where}\quad t=x+1$
+   - eg: $a+b \textcolor{orange}{>_r} a \blue\implies (a+b)+1 \textcolor{orange}{>_r} a+1\quad \text{where}\quad t_c=x+1$
 
 If $R$ is `Noetherian`
 

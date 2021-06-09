@@ -4,9 +4,26 @@
 
 Thingo = Equation / RewriteRule / Expression
 
-Equation
+Equation = RelEqual / RelNotEqual / RelLessThan / RelGreaterThan
+
+RelEqual
 	= head:Expression _ "=" _ tail:Expression {
 		return ["equ", head, tail];
+	}
+
+RelNotEqual
+	= head:Expression _ "≠" _ tail:Expression {
+		return ["not", ["equ", head, tail]];
+	}
+
+RelLessThan
+	= head:Expression _ "<" _ tail:Expression {
+		return ["lt", head, tail];
+	}
+
+RelGreaterThan
+	= head:Expression _ ">" _ tail:Expression {
+		return ["gt", head, tail];
 	}
 
 RewriteRule

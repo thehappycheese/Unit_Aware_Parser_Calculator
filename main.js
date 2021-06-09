@@ -41,6 +41,15 @@ let replace_while_typing_rules = [
 	new Replace_While_Typing("ohm","Ω"),
 	new Replace_While_Typing("micro","µ"),
 	new Replace_While_Typing("-->","⟶"),
+	new Replace_While_Typing("<=","≤"),
+	new Replace_While_Typing(">=","≥"),
+	new Replace_While_Typing("<>","≠"),
+	new Replace_While_Typing("¬=","≠"),
+	new Replace_While_Typing("¬<","≥"),
+	new Replace_While_Typing("¬>","≤"),
+	new Replace_While_Typing("and","∧"),
+	new Replace_While_Typing("or","∨"),
+	new Replace_While_Typing("not","¬"),
 ]
 
 
@@ -51,7 +60,7 @@ function replace_while_typing(e){
 		let v = input_textarea.value;
 
 		replace_while_typing_rules.map(item=>{
-			[v, sel_start] = item.do_replace(v,sel_start);
+			[v, sel_start] = item.do_replace(v, sel_start);
 		})
 		input_textarea.value = v;
 		input_textarea.selectionStart = sel_start;
