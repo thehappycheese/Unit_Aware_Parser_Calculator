@@ -2,37 +2,83 @@
 
 }
 
-Thingo = Equation / RewriteRule / Expression
+Thingo = Relationship / RewriteRule / Term_Addition
 
-Equation = RelEqual / RelNotEqual / RelLessThan / RelGreaterThan
 
-RelEqual
-	= head:Expression _ "=" _ tail:Expression {
+ConditionList =
+	first:Relationship rest:(_ ";" _ Relationship)*{
+		return [first, ...rest.map(item=>item[3])];
+	}
+
+
+Relationship = 
+	Relationship_Equal /
+	Relationship_Not_Equal /
+	Relationship_Less_Than /
+	Relationship_Greater_Than /
+	Relationship_Less_Than_Or_Equal /
+	Relationship_Greater_Than_Or_Equal /
+	Term_Logical
+
+
+
+Relationship_Equal
+	= head:Term_Addition _ "=" _ tail:Term_Addition {
 		return ["equ", head, tail];
 	}
 
-RelNotEqual
-	= head:Expression _ "≠" _ tail:Expression {
+Relationship_Not_Equal
+	= head:Term_Addition _ "≠" _ tail:Term_Addition {
 		return ["not", ["equ", head, tail]];
 	}
 
-RelLessThan
-	= head:Expression _ "<" _ tail:Expression {
+Relationship_Less_Than
+	= head:Term_Addition _ "<" _ tail:Term_Addition {
 		return ["lt", head, tail];
 	}
 
-RelGreaterThan
-	= head:Expression _ ">" _ tail:Expression {
+Relationship_Greater_Than
+	= head:Term_Addition _ ">" _ tail:Term_Addition {
 		return ["gt", head, tail];
 	}
 
-RewriteRule
-	= head:Expression _ "⟶" _ tail:Expression {
-		return ["rew", head, tail];
+Relationship_Greater_Than_Or_Equal
+	= head:Term_Addition _ "≥" _ tail:Term_Addition {
+		return ["not", ["lt", head, tail]];
 	}
 
-Expression
-	= head:Term tail:( _ ("+" / "-") _ Term)* {
+Relationship_Less_Than_Or_Equal
+	= head:Term_Addition _ "≤" _ tail:Term_Addition {
+		return ["not", ["gt", head, tail]];
+	}
+
+RewriteRule
+	= head:Term_Addition _ "⟶" _ tail:Term_Addition cond:(_ "where" _ ConditionList )? {
+		let result = ["rew", head, tail];
+		if(cond){
+			result.push(cond[3])
+		}
+		return result;
+	}
+
+
+Term_Logical
+	= head:Term_Addition tail:( _ ("∧" / "∨") _ Term_Addition)* {
+		let result = tail.reduce((head, tail) =>{
+				let [/*whitespace*/, op, /*whitespace*/, term] = tail;
+				if(op === "∧"){
+					return ["and", head, term];
+				}else{
+					return ["or", head, term];
+				}
+			},
+			head
+		);
+		return result;
+	}
+
+Term_Addition
+	= head:Term_Multiplication tail:( _ ("+" / "-") _ Term_Multiplication)* {
 		let result = tail.reduce((head, tail) =>{
 				let [/*whitespace*/, op, /*whitespace*/, term] = tail;
 				if(op==="+"){
@@ -46,7 +92,7 @@ Expression
 		return result;
 	}
 
-Term
+Term_Multiplication
   = head:Exponent tail:(_ ("·" / "/") _ Exponent)* {
 	  return tail.reduce((head, tail)=>{
 		let [/*whitespace*/, op, /*whitespace*/, term] = tail;
@@ -59,7 +105,7 @@ Term
 	}
 
 Factor
-  = "(" _ expr:Expression _ ")" { return expr; }
+  = "(" _ expr:Term_Addition _ ")" { return expr; }
   / Number
   / Unit_Modified
 

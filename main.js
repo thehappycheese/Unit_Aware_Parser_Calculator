@@ -18,10 +18,7 @@ var headers = new Headers();
 headers.append('pragma', 'no-cache');
 headers.append('cache-control', 'no-cache');
 
-setInterval(
-	update_on_grammar
-	,3000
-);
+setInterval(update_on_grammar, 3000);
 
 function update_on_grammar(){
 	fetch("/grammar.pegjs", {headers})
