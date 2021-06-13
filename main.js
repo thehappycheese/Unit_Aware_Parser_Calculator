@@ -9,7 +9,7 @@ if (localStorage.getItem("inp")){
 	input_textarea.value = localStorage.getItem("inp");
 }
 
-document.querySelector("#rule_list").innerHTML = print_tree(axioms, true);
+document.querySelector("#stage2").innerHTML = print_tree(axioms, true);
 
 let grammar = undefined;
 let last_grammar = "";
@@ -65,18 +65,17 @@ function replace_while_typing(e){
 	}
 }
 
+var input_tree;
 function change_handler(e){
 	if(!grammar) return;
-	document.querySelector("#intermediate").innerHTML = "";
+
 	localStorage.setItem("inp", input_textarea.value);
 	
-	let intermediate;
 	try{
-		intermediate = grammar.parse(input_textarea.value);
-		document.querySelector("#intermediate").innerHTML = JSON.stringify(intermediate,null,2);
+		input_tree = grammar.parse(input_textarea.value);
+		document.querySelector("#raw").innerHTML = print_tree(input_tree);
 	}catch(e){
-		document.querySelector("#intermediate").innerHTML = e.message;
-		document.querySelector("#output").innerHTML = "";
+		document.querySelector("#raw").innerHTML = e.message;
 	}
 
 	let result;
@@ -85,9 +84,9 @@ function change_handler(e){
 		for(let item of tree_walk(intermediate)){
 			result.push(print_tree(item));
 		}
-		document.querySelector("#output").innerHTML = result.join("<br>");
+		document.querySelector("#stage1").innerHTML = result.join("<br>");
 	}catch(e){
-		document.querySelector("#output").innerHTML = e.message;
+		document.querySelector("#stage2").innerHTML = e.message;
 	}
 
 }

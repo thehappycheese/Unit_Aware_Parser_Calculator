@@ -149,8 +149,15 @@ function tree_max_depth(tree, depth=0){
 	if(!Array.isArray(tree)) return depth;
 	let [head, ...tail] = tree;
 	return tail.reduce((deepest_so_far, subtree) =>
-		Math.max(deepest_so_far, tree_depth(subtree, depth+1))
+		Math.max(deepest_so_far, tree_max_depth(subtree, depth+1))
 	, depth);
+}
+function tree_count(tree){
+	if(!Array.isArray(tree)) return 1;
+	let [head, ...tail] = tree;
+	return tail.reduce((count, subtree) =>
+		count + tree_count(subtree)
+	, 0);
 }
 
 // TODO: rename... this is like the pandas .loc() function. maybe tree_loc() ?

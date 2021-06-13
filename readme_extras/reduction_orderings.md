@@ -141,7 +141,7 @@ representation. They do not appear in the structure of the term.
 Let the comparison operator $\textcolor{orange}{>_r}$ be defined to compare the
 "complexity" between any two terms.
 
-Complexity of a term can be measured by the number of leaf nodes in a tree:
+One way to measure complexity of a term is to measure the number of leaf nodes in a tree:
 
 ```javascript
 count_leaf(
@@ -160,6 +160,8 @@ count_leaf(leftmost_subtree(["add", 1, ["add", 2, 3]]));
 count_leaf(leftmost_subtree(["add", ["add", 1, 2], 3]));
 //  =2
 ```
+
+More complex rules to measure complexity may be required in practice.
 
 ### 3.5. Structural Equality of Terms (Literally Equal)
 

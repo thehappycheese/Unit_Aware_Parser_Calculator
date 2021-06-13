@@ -53,7 +53,7 @@ Relationship_Less_Than_Or_Equal
 	}
 
 RewriteRule
-	= head:Term_Addition _ "⟶" _ tail:Term_Addition cond:(_ "where" _ ConditionList )? {
+	= head:Term_Addition _ "⟶" _ tail:Term_Addition cond:(_ "where" _ Term_Logical )? {
 		let result = ["rew", head, tail];
 		if(cond){
 			result.push(cond[3])
@@ -111,14 +111,14 @@ Term_Multiplication
 
 Factor
 	= "(" _ expr:Term_Addition _ ")" { return expr; }
+	/ Unit_Exponent
 	/ Symbol
 	/ Number
 
 Exponent
-	= factor:(Factor_Unit / Factor) "^" exponent:Factor {
+	= factor:Factor "^" exponent:Factor {
 		return ["pow", factor, exponent]
 	}
-	/ Factor_Unit
 	/ Factor
 
 Symbol
@@ -190,16 +190,16 @@ Pc = [\u005F\u203F-\u2040\u2054\uFE33-\uFE34\uFE4D-\uFE4F\uFF3F]
 Zs = [\u0020\u00A0\u1680\u2000-\u200A\u202F\u205F\u3000]
 
 
-Factor_Unit 
-  = factor:Factor unit:(Unit_Exponent / Non_Prefixable_Unit / Prefixable_Unit) {return ["mul", factor, unit]}
+// Factor_Unit 
+//	= factor:Factor unit:(Unit_Exponent / Non_Prefixable_Unit / Prefixable_Unit) {return ["mul", factor, unit]}
 
 Number
- = _ [+-]?[0-9]+ ( '.' [0-9]+ )? {
-	return ["num", parseFloat(text())];
-}
+	= _ [+-]?[0-9]+ ( '.' [0-9]+ )? {
+		return ["num", parseFloat(text())];
+	}
 
 _ "whitespace"
-  = [ \t\n\r]*
+= 	[ \t\n\r]*
 
 Unit_Exponent =
 	unit:Unit_Prefixed exponent:Number{
@@ -265,7 +265,7 @@ candela
 // SI Derived Units
 
 Hour
-	= "h" {return ["sym","h"]}
+	= "hr" {return ["sym","hr"]}
 
 Volt
 	= "V" {return ["sym","V"]}

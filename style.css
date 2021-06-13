@@ -14,10 +14,17 @@ body{
 	display:grid;
 	padding:10px;
 	height:calc(100% - 20px);
-	grid-template-rows: 50px 1fr;
+	grid-template-rows: auto 1fr;
 	grid-template-columns: 1fr 1fr 1fr;
 	gap:4px;
 	color:aliceblue;
+}
+#header{
+	grid-column: 1/4;
+	display:grid;
+	grid-template-rows: auto auto;
+	grid-template-columns: repeat(3,1fr);
+	gap:4px;
 }
 
 #input{
@@ -27,7 +34,9 @@ body{
 	font-size: 1.5em;
 	font-family: monospace;
 	display:block;
-	grid-column: 1/4;
+	width:auto;
+	resize: none;
+	grid-column:1/4;
 }
 
 .green_outline{

@@ -46,20 +46,31 @@ function partition(arr, predicate) {
 	return [result_true, result_false];
 }
 
+
+
+let printers = {
+	"num":()=>`<span class="fnum">${tail[0]}</span>`,
+	"sym":()=>`<span class="fsym">${tail[0]}</span>`,
+	"default":()=>`<span class="fsym">${tail[0]}</span>`,
+};
+
 function print_tree(tree, pretty = true, depth = 0) {
-	let space = `<div style="display:inline-block;width:${depth * 20}px;height:1em;border-bottom:1px dotted #555;">${new Array(depth * 4).fill("&nbsp;").join("")}</div>`;
+	let space = `<div style="display:inline-block;width:${depth * 20}px;height:1em;border-bottom:1px dotted #555;">${new Array(depth).fill("&#9;").join("")}</div>`;
 	if (Array.isArray(tree)) {
 		let [head, ...tail] = tree;
-		if (head === "num") {
-			return space + `<span class="fnum">${tail[0]}</span>`
-		} else if (head === "sym") {
-			return space + `<span class="fsym">${tail[0]}</span>`
-		} else if (tail.every(item => Array.isArray(item) && (item[0] === "num"|| item[0]=="sym"))) {
-			return space + `[<span class="fname">${head}</span> ${tail.map((item) => print_tree(item, pretty, 0)).join(" ")}]`;
-			/*}else if(tail.every(item => !Array.isArray(item))){
-				return space + `[<span class="fname">${head}</span> ${tail.join(" ")}]`*/
-		} else {
-			return space + `[<span class="fname">${head}</span><br>${tail.map(item => print_tree(item, pretty, depth + 1)).join("<br>")}<br>${space}]`;
+		switch(head){
+			case "num":
+				return space + `<span class="fnum">${tail[0]}</span>`;
+			case "sym":
+				return space + `<span class="fsym">${tail[0]}</span>`;
+			default:
+				if(tree_count(tree)<4){
+					// inline recursion
+					return space + `[<span class="fname">${head}</span> ${tail.map((item) => print_tree(item, pretty, 0)).join(" ")}]`;	
+				}else{
+					// indented recursion
+					return space + `[<span class="fname">${head}</span><br>${tail.map(item => print_tree(item, pretty, depth + 1)).join("<br>")}<br>${space}]`;
+				}
 		}
 	} else {
 		return space + (tree?.toString() ?? '<span class="print_tree_error">print_tree error</span>');
