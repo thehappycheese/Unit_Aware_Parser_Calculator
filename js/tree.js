@@ -57,7 +57,7 @@ function * tree_walk(tree, indexes=[]){
 	if(tree_is_leaf(tree)){
 		return;
 	}
-	yield ["tree_location", ["tree_index", ...indexes], tree ];
+	yield [indexes, tree];
 	for(let subtree_index = 1; subtree_index < tree.length; subtree_index++){
 		for(let item of tree_walk(tree[subtree_index], [...indexes, subtree_index])){
 			yield item;

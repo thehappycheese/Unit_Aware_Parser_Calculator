@@ -154,7 +154,7 @@ function axiom_list_click(e){
 	}
 
 	let axiom = axioms[index];
-	document.querySelector("#stage2").innerHTML = tree_print(match2(axiom[2][1], input_tree));
+	document.querySelector("#stage2").innerHTML = tree_print(match(axiom[2][1], input_tree));
 
 	
 }

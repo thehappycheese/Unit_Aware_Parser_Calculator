@@ -45,40 +45,14 @@ function * matches(rules, expression){
 	}
 }
 
-function match(rule, expression, symbols=[]){
-
-
-
-	if(tree_is_leaf(rule)){
-		if(tree_is_leaf(expression)){
-			return [rule===expression, symbols] ;
-		}
-		return [false, symbols];
-	}
-
-	let [rule_type, ...rule_args] = rule;
-
-	if(tree_is_leaf(expression)){
-		if(rule_type==="sym"){
-			return ["eq", ["sym", rule[1]], expression];
+function match(rule, expression){
+	for(let [indexes, sub_expression] of tree_walk(expression)){
+		let [match_success, match_symbols] = match2(rule, sub_expression)
+		if(match_success){
+			return [match_success, match_symbols]
 		}
 	}
-	
-	let [expr_type, ...expr_args] = expression;
-
-	if(rule_type==="sym"){
-		// TODO: can only be allowed if that symbol was not already assigned to a non-matching expression??
-		return ["eq", ["sym", rule[1]], expression];
-	}else if(rule_type===expr_type){
-		let result = [];
-		for(let pair of zip(rule_args, expr_args)){
-			let sub_result = match(...pair)
-			if(!sub_result) return false;
-			result.push(sub_result);
-		}
-		return result;
-	}
-	return false;
+	return [false,[]]
 }
 
 
@@ -101,8 +75,8 @@ function match2(rule, expression){
 		}
 		let symbols = [];
 		for(let pair of zip(rule_args, expr_args)){
-			let [success, match_symbols] = match2(...pair)
-			if(!success) return [false, []];
+			let [match_success, match_symbols] = match2(...pair)
+			if(!match_success) return [false, []];
 			symbols.push(...match_symbols);
 		}
 		return [true, symbols];
