@@ -55,11 +55,11 @@ body{
 	display: grid;
 	grid-template-rows: auto 1fr;
 	min-height: 0;
+	gap:4px;
 }
 
 .column :nth-child(2){
-	overflow-y: scroll;
-	min-height: 0;
+	
 }
 
 .fname{
@@ -81,4 +81,12 @@ body{
 	font-weight: bold;
 	font-style: italic;
 	color: lightsalmon;
+}
+
+.axiom_container{
+	
+	margin-bottom:5px;
+}
+.axiom_container:hover{
+	background-color: #333;
 }
