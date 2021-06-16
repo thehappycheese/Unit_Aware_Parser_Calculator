@@ -63,7 +63,8 @@ body{
 }
 
 .fname{
-	font-weight: bold;
+	
+	font-style: italic;
 	color:lightskyblue;
 }
 
@@ -75,6 +76,11 @@ body{
 .fsym{
 	font-weight: bold;
 	color: lightcoral;
+}
+
+.fstr{
+	font-weight: bold;
+	color: lightgreen;
 }
 
 .print_tree_error{
