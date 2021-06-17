@@ -36,11 +36,23 @@ function tree_count(tree){
 }
 
 function tree_complexity(tree){
-	if(tree_is_leaf(tree)) return [1];
+	if(tree_is_leaf(tree) || (tree.length==2 && tree_is_leaf(tree[1]))) return [1];
 	let [head, ...tail] = tree;
 	let tail_results = tail.map(tree_complexity);
 	sum = tail_results.reduce((acc,cur)=>acc+cur[0], 0)
 	return [sum,...tail_results.flat()]
+}
+
+function tree_is_less_complex_than(tree_a, tree_b){
+	let complexity_a = tree_complexity(tree_a);
+	let complexity_b = tree_complexity(tree_b);
+	if(complexity_a.length!=complexity_b.length){
+		return complexity_a.length<complexity_b.length;
+	}
+	for(let [a,b] of zip(complexity_a, complexity_b)){
+		if(a<b) return true;
+	}
+	return false;
 }
 
 // TODO: rename... this is like the pandas .loc() function. maybe tree_loc() ?
@@ -53,13 +65,13 @@ function tree_lookup(tree, index_list){
 }
 
 
-function * tree_walk(tree, indexes=[]){
+function * tree_walk_left(tree, indexes=[]){
 	if(tree_is_leaf(tree)){
 		return;
 	}
 	yield [indexes, tree];
 	for(let subtree_index = 1; subtree_index < tree.length; subtree_index++){
-		for(let item of tree_walk(tree[subtree_index], [...indexes, subtree_index])){
+		for(let item of tree_walk_left(tree[subtree_index], [...indexes, subtree_index])){
 			yield item;
 		}
 	}

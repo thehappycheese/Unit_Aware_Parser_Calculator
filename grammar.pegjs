@@ -57,6 +57,8 @@ RewriteRule
 		let result = ["rew", head, tail];
 		if(cond){
 			result.push(cond[3])
+		}else{
+			result.push(["bool", true])
 		}
 		return result;
 	}

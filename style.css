@@ -19,15 +19,17 @@ body{
 	gap:4px;
 	color:aliceblue;
 }
-#header{
-	grid-column: 1/4;
-	display:grid;
-	grid-template-rows: auto auto;
-	grid-template-columns: repeat(3,1fr);
-	gap:4px;
+h1{
+	margin:0;
+	font-size:1.2em;
+	color:paleturquoise;
+}
+h2{
+	margin:0;
+	font-size:1em;
 }
 
-#input{
+#axiom_input{
 	background-color:#222;
 	border: 1px solid seagreen;
 	color:aliceblue;
@@ -36,7 +38,6 @@ body{
 	display:block;
 	width:auto;
 	resize: none;
-	grid-column:1/4;
 }
 
 .green_outline{
@@ -53,7 +54,7 @@ body{
 
 .column{
 	display: grid;
-	grid-template-rows: auto 1fr;
+	grid-template-rows: auto auto auto 1fr;
 	min-height: 0;
 	gap:4px;
 }
@@ -90,8 +91,9 @@ body{
 }
 
 .axiom_container{
-	
+	padding:2px;
 	margin-bottom:5px;
+	cursor: pointer;
 }
 .axiom_container:hover{
 	background-color: #333;

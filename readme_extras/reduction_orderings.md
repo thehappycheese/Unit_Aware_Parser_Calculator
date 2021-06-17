@@ -1,11 +1,11 @@
 # Research <!-- omit in toc -->
 
-> Note, the following document is intended to be viewed in Visual Studio Code
+> **Note**: the following document is intended to be viewed in Visual Studio Code
 > with extensions for KaTex Math and the Mermaid diagram language If you are
 > looking at the published HTML file, the markdown source is here
 > <https://github.com/thehappycheese/Unit_Aware_Parser_Calculator/blob/main/readme_extras/reduction_orderings.md>
-
-> Also Note: I'm no expert in this field, the notes below are probably subtly wrong in ways that I don't understand yet. Don't rely on them as accurate.
+>
+> **Also Note**: I'm no expert in this field, the notes below are probably wrong in ways that I don't understand yet. Don't rely on them as accurate.I have also taken some artistic licence with the proper terminology (eg I use "pattern matching" to mean unification)
 
 - [1. Sources](#1-sources)
 - [2. Notation](#2-notation)
@@ -14,8 +14,7 @@
 	- [3.2. First Order Term](#32-first-order-term)
 	- [3.3. Term Representation vs. Structure](#33-term-representation-vs-structure)
 	- [3.4. Ordering of Terms by Complexity](#34-ordering-of-terms-by-complexity)
-	- [3.5. Structural Equality of Terms (Literally Equal)](#35-structural-equality-of-terms-literally-equal)
-	- [3.6. Notation used for Substitution](#36-notation-used-for-substitution)
+	- [3.5. Notation used for Substitution](#35-notation-used-for-substitution)
 - [4. Unification of Terms (Pattern Matching)](#4-unification-of-terms-pattern-matching)
 	- [4.1. Subsumption (Instances Of)](#41-subsumption-instances-of)
 	- [4.2. Subsumption Ordering](#42-subsumption-ordering)
@@ -27,6 +26,7 @@
 - [6. Proofing if Terms are Equivalent](#6-proofing-if-terms-are-equivalent)
 	- [6.1. Word Problem](#61-word-problem)
 	- [6.2. Rewrite Proof vs Non-Rewrite Proof](#62-rewrite-proof-vs-non-rewrite-proof)
+	- [6.3. Structural Equality of Terms (Literally Equal)](#63-structural-equality-of-terms-literally-equal)
 - [7. Critical Terms](#7-critical-terms)
 - [8. Superposition to find Critical Terms](#8-superposition-to-find-critical-terms)
 - [9. Confluence](#9-confluence)
@@ -41,11 +41,11 @@
 
 I gathered these notes (to the best of my own understanding) from this series of
 YouTube videos by the excellent youtuber `jin xing lim`:
-<https://www.youtube.com/watch?v=AP8L3OZxO-k>
+<https://www.youtube.com/watch?v=AP8L3OZxO-k>. Thankyou so much for making those videos.
 
-Probably I should try to find and read the sources used in the youtube video as well.
+Probably I should try to find and read the articles referenced in the youtube video as well, but I wanted to do some programming before doing any further research.
 
-And from various Wikipedia pages such as
+I also read various Wikipedia pages such as
 <https://en.wikipedia.org/wiki/Knuth%E2%80%93Bendix_completion_algorithm>
 
 ## 2. Notation
@@ -163,14 +163,10 @@ count_leaf(leftmost_subtree(["add", ["add", 1, 2], 3]));
 
 More complex rules to measure complexity may be required in practice.
 
-### 3.5. Structural Equality of Terms (Literally Equal)
 
-Terms are structurally equal if they share an exactly matching structure.
-In other words, the JSON representations are 'deeply equal'.
 
-**??** define an operator?
 
-### 3.6. Notation used for Substitution
+### 3.5. Notation used for Substitution
 
 Terms can be transformed by the substitution of one term into another. For
 example, given the following terms $t_1$, $t_2$, and $t_3$:
@@ -337,6 +333,11 @@ It is hard to write an algorithm which can do a `Non-Rewrite Proof`. Therefore
 the goal is to generate a set of rewrite rules which are comprehensive enough to
 eliminate the need for `Non-Rewrite Proofs`. To that end, finding
 `Critical Terms` in the system is required.
+
+### 6.3. Structural Equality of Terms (Literally Equal)
+
+Terms are structurally equal if they share an exactly matching structure.
+In other words, the JSON representations are 'deeply equal'.
 
 ## 7. Critical Terms
 

@@ -1,7 +1,7 @@
 "use strict";
 
 var input_tree;
-var input_textarea = document.querySelector("#input");
+var input_textarea = document.querySelector("#axiom_input");
 
 input_textarea.addEventListener("keyup",change_handler);
 input_textarea.addEventListener("keyup",replace_while_typing);
@@ -85,6 +85,8 @@ function change_handler(e){
 
 	localStorage.setItem("inp", input_textarea.value);
 	
+	input_tree = ["nux"]
+
 	try{
 		input_tree = grammar.parse(input_textarea.value);
 		document.querySelector("#raw").innerHTML = tree_print(input_tree);
@@ -98,22 +100,19 @@ function change_handler(e){
 		document.querySelector("#out_count").innerHTML = tree_complexity(input_tree);
 	}
 
-
-	// let result;
-	// try{
-	// 	result = [];
-	// 	for(let item of tree_walk(input_tree)){
-	// 		result.push(tree_print(item));
-	// 	}
-	// 	document.querySelector("#stage2").innerHTML = result.join("<br>");
-	// }catch(e){
-	// 	document.querySelector("#stage2").innerHTML = e.message;
-	// }
-
 }
 
 
 function add_axiom(){
+
+	if(input_tree[0]!=="rew"){
+		alert("Axiom must be rewrite rule")
+		return;
+	}
+	if(tree_is_less_complex_than(input_tree[1], input_tree[2])){
+		alert("Axiom must be ordered!")
+		return;
+	} 
 	axioms.push([
 		"axiom",
 		["str", input_textarea.value],
@@ -128,7 +127,7 @@ function draw_axioms(){
 	axioms.map(axiom=>{
 		let ndiv = document.createElement("div");
 		ndiv.setAttribute("class","axiom_container")
-		ndiv.innerHTML = tree_print(axiom);
+		ndiv.innerHTML = tree_print(axiom[1]);
 		document.querySelector("#stage1").appendChild(ndiv)
 	})
 }
@@ -147,7 +146,7 @@ function axiom_list_click(e){
 	let index = Array.from(node.parentNode.children).indexOf(node)
 	if(e.ctrlKey){
 		let [axiom] = axioms.splice(index,1);
-		input_textarea.value = axiom[1];
+		input_textarea.value = axiom[1][1];
 		change_handler()
 		draw_axioms()
 		return;
