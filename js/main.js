@@ -1,17 +1,17 @@
 "use strict";
 
-var input_tree;
-var input_textarea = document.querySelector("#axiom_input");
+var axiom_input_tree;
+var axiom_input_textarea = document.querySelector("#axiom_input");
 
-input_textarea.addEventListener("keyup",change_handler);
-input_textarea.addEventListener("keyup",replace_while_typing);
-input_textarea.addEventListener("click",change_handler);
+axiom_input_textarea.addEventListener("keyup",change_handler);
+axiom_input_textarea.addEventListener("keyup",replace_while_typing);
+axiom_input_textarea.addEventListener("click",change_handler);
 
 
 
 
 if (localStorage.getItem("inp")){
-	input_textarea.value = localStorage.getItem("inp");
+	axiom_input_textarea.value = localStorage.getItem("inp");
 }
 
 let axioms = [];
@@ -61,21 +61,23 @@ let replace_while_typing_rules = [
 	new Replace_While_Typing("and","∧"),
 	new Replace_While_Typing("or","∨"),
 	new Replace_While_Typing("not","¬"),
+	new Replace_While_Typing("true","👍"),
+	new Replace_While_Typing("false","👎"),
 ]
 
 
 
 function replace_while_typing(e){
-	if(input_textarea.selectionStart === input_textarea.selectionEnd){
-		let sel_start = input_textarea.selectionStart ;
-		let v = input_textarea.value;
+	if(axiom_input_textarea.selectionStart === axiom_input_textarea.selectionEnd){
+		let sel_start = axiom_input_textarea.selectionStart ;
+		let v = axiom_input_textarea.value;
 
 		replace_while_typing_rules.map(item=>{
 			[v, sel_start] = item.do_replace(v, sel_start);
 		})
-		input_textarea.value = v;
-		input_textarea.selectionStart = sel_start;
-		input_textarea.selectionEnd = sel_start;
+		axiom_input_textarea.value = v;
+		axiom_input_textarea.selectionStart = sel_start;
+		axiom_input_textarea.selectionEnd = sel_start;
 	}
 }
 
@@ -83,21 +85,21 @@ function replace_while_typing(e){
 function change_handler(e){
 	if(!grammar) return;
 
-	localStorage.setItem("inp", input_textarea.value);
+	localStorage.setItem("inp", axiom_input_textarea.value);
 	
-	input_tree = ["nux"]
+	axiom_input_tree = ["nux"]
 
 	try{
-		input_tree = grammar.parse(input_textarea.value);
-		document.querySelector("#raw").innerHTML = tree_print(input_tree);
+		axiom_input_tree = grammar.parse(axiom_input_textarea.value);
+		document.querySelector("#raw").innerHTML = tree_print(axiom_input_tree);
 	}catch(e){
 		document.querySelector("#raw").innerHTML = e.message;
 	}
 
-	if(input_tree[0]=="rew"){
-		document.querySelector("#out_count").innerHTML = tree_complexity(input_tree[1])+"<br>"+tree_complexity(input_tree[2]);
+	if(axiom_input_tree[0]=="rew"){
+		document.querySelector("#out_count").innerHTML = tree_complexity(axiom_input_tree[1])+"<br>"+tree_complexity(axiom_input_tree[2]);
 	}else{
-		document.querySelector("#out_count").innerHTML = tree_complexity(input_tree);
+		document.querySelector("#out_count").innerHTML = tree_complexity(axiom_input_tree);
 	}
 
 }
@@ -105,18 +107,18 @@ function change_handler(e){
 
 function add_axiom(){
 
-	if(input_tree[0]!=="rew"){
+	if(axiom_input_tree[0]!=="rew"){
 		alert("Axiom must be rewrite rule")
 		return;
 	}
-	if(tree_is_less_complex_than(input_tree[1], input_tree[2])){
+	if(tree_is_less_complex_than(axiom_input_tree[1], axiom_input_tree[2])){
 		alert("Axiom must be ordered!")
 		return;
 	} 
 	axioms.push([
 		"axiom",
-		["str", input_textarea.value],
-		input_tree
+		["str", axiom_input_textarea.value],
+		axiom_input_tree
 	]);
 	draw_axioms()
 	localStorage.setItem("axioms", JSON.stringify(axioms));
@@ -146,14 +148,14 @@ function axiom_list_click(e){
 	let index = Array.from(node.parentNode.children).indexOf(node)
 	if(e.ctrlKey){
 		let [axiom] = axioms.splice(index,1);
-		input_textarea.value = axiom[1][1];
+		axiom_input_textarea.value = axiom[1][1];
 		change_handler()
 		draw_axioms()
 		return;
 	}
 
 	let axiom = axioms[index];
-	document.querySelector("#stage2").innerHTML = tree_print(match(axiom[2][1], input_tree));
+	document.querySelector("#stage2").innerHTML = tree_print(match_anywhere(axiom[2][1], axiom_input_tree));
 
 	
 }

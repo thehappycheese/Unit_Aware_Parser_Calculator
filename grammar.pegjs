@@ -100,16 +100,22 @@ Term_Addition
 	}
 
 Term_Multiplication
-	= head:Exponent tail:(_ ("·" / "/") _ Exponent)* {
+	= head:Negated_Exponent tail:(_ ("·" / "/") _ Negated_Exponent)* {
 		return tail.reduce((head, tail)=>{
-		let [/*whitespace*/, op, /*whitespace*/, term] = tail;
-		if(op==="·"){
-			return ["mul", head, term];
-		}else{
-			return ["mul", head, ["pow", term, ["num", -1]]];
-		}
-		}, head);
+				let [/*whitespace*/, op, /*whitespace*/, term] = tail;
+				if(op==="·"){
+					return ["mul", head, term];
+				}else{
+					return ["mul", head, ["pow", term, ["num", -1]]];
+				}
+			},
+			head
+		);
 	}
+
+Negated_Exponent
+	= "-" tail:Exponent {return ["neg", tail]}
+	/ Exponent
 
 Factor
 	= "(" _ expr:Term_Addition _ ")" { return expr; }
@@ -196,7 +202,7 @@ Zs = [\u0020\u00A0\u1680\u2000-\u200A\u202F\u205F\u3000]
 //	= factor:Factor unit:(Unit_Exponent / Non_Prefixable_Unit / Prefixable_Unit) {return ["mul", factor, unit]}
 
 Number
-	= _ [+-]?[0-9]+ ( '.' [0-9]+ )? {
+	= [+-]?[0-9]+ ( '.' [0-9]+ )? {
 		return ["num", parseFloat(text())];
 	}
 

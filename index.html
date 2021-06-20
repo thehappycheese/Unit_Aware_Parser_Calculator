@@ -1,42 +1,47 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="utf8">
-		<title>Nick's Ohms Law Calculator</title>
-		<script defer src="js/third_party/peggy.js"></script>
-		<script defer src="js/iter.js"></script>
-		<script defer src="js/tree.js"></script>
-		<script defer src="js/knuth_bendix.js"></script>
-		<script defer src="js/Replace_While_Typing.js"></script>
-		<script defer src="js/main.js"></script>
-		
-		
-		<link href="style.css" rel="stylesheet" type="text/css"/>
-	</head>
-	<body>
-		<div id="header" style="grid-column: 1/4;">
-			<h1>Nick's Knuth-Bendix Completion Algorithm</h1>
-			
-		</div>
-		<div class="column">
-			<h2>Raw Input</h2>
-			
-			<div class="green_outline">Depth:<br><span id="out_depth"></span></div>
-			<div class="green_outline">Count:<br><span id="out_count"></span></div>
-		</div>
-		<div class="column">
-			<h2>Axioms</h2>
-			<input type="text" id="axiom_input" rows="1"/>
-			<button onclick="add_axiom()">Add Axiom</button>
-			<div id="raw" class="green_outline" style="overflow-y: scroll;"></div>
-			<div id="stage1" class="green_outline" style="overflow-y: scroll;" onclick="axiom_list_click(event)"></div>
-		</div>
-		<div class="column">
-			<h2>Match</h2>
-			<div id="stage2" class="green_outline" style="overflow-y: scroll;"></div>
-		</div>
-		
+
+<head>
+    <meta charset="utf8">
+    <title>Nick's Ohms Law Calculator</title>
+    <script defer src="js/third_party/peggy.js"></script>
+    <script defer src="js/iter.js"></script>
+    <script defer src="js/tree.js"></script>
+	<script defer src="js/tree_evaluate.js"></script>
+    <script defer src="js/knuth_bendix.js"></script>
+    <script defer src="js/Replace_While_Typing.js"></script>
+    <script defer src="js/unicode_study.js"></script>
+    <script defer src="js/main.js"></script>
 
 
-	</body>
+    <link href="style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+    <div id="header" style="grid-column: 1/4;">
+        <h1>Nick's Knuth-Bendix Completion Algorithm</h1>
+
+    </div>
+    <div class="column">
+        <h2>Raw Input</h2>
+		<input type="text" id="axiom_input" rows="1" />
+        <div class="green_outline">Depth:<br><span id="out_depth"></span></div>
+        <div class="green_outline">Count:<br><span id="out_count"></span></div>
+    </div>
+    <div class="column">
+        <h2>Axioms</h2>
+        
+        <button onclick="add_axiom()">Add Axiom</button>
+        <div id="raw" class="green_outline" style="overflow-y: scroll;"></div>
+        <div id="stage1" class="green_outline" style="overflow-y: scroll;" onclick="axiom_list_click(event)"></div>
+    </div>
+    <div class="column">
+        <h2>Match</h2>
+        <div id="stage2" class="green_outline" style="overflow-y: scroll;"></div>
+    </div>
+
+
+
+</body>
+
 </html>
