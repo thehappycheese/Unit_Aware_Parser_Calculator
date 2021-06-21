@@ -53,7 +53,7 @@ Relationship_Less_Than_Or_Equal
 	}
 
 RewriteRule
-	= head:Term_Addition _ "⟶" _ tail:Term_Addition cond:(_ "where" _ Term_Logical )? {
+	= head:Term_Logical _ "⟶" _ tail:Term_Logical cond:(_ "where" _ Term_Logical )? {
 		let result = ["rew", head, tail];
 		if(cond){
 			result.push(cond[3])

@@ -59,9 +59,9 @@ ASTL is designed with the following goals:
 
 | Abstract Syntax |     Input Syntax     |      | Function       | Description                                                 | Use      |
 | --------------- | :------------------: | ---- | -------------- | ----------------------------------------------------------- | -------- |
-| `["bool",_]`    |        `true`        | Leaf | Boolean        |                                                             | Internal |
+| `["bool",_]`    |   `true` / `false`   | Leaf | Boolean        |                                                             | Internal |
 | `["str",_]`     |        `"T"`         | Leaf | String         |                                                             | Internal |
-| `["sym",_]`    |         `x`          | Leaf | Symbol         |                                                             |          |
+| `["sym",_]`     |         `x`          | Leaf | Symbol         |                                                             |          |
 | `["num",_]`     |         `1`          | Leaf | Number         | TODO: should this be positive only?                         |          |
 |                 |                      |      |                |                                                             |          |
 | `["pow",a,b]`   |         a^b          | Tree | Exponentiation |                                                             |          |

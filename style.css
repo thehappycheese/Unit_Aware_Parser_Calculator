@@ -54,7 +54,7 @@ h2{
 
 .column{
 	display: grid;
-	grid-template-rows: auto auto auto 1fr;
+	grid-template-rows: auto;
 	min-height: 0;
 	gap:4px;
 }

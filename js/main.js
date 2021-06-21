@@ -93,7 +93,7 @@ function change_handler(e){
 		axiom_input_tree = grammar.parse(axiom_input_textarea.value);
 		document.querySelector("#raw").innerHTML = tree_print(axiom_input_tree);
 	}catch(e){
-		document.querySelector("#raw").innerHTML = e.message;
+		document.querySelector("#raw").innerHTML = e.message.slice(null,100)+"...";
 	}
 
 	if(axiom_input_tree[0]=="rew"){
@@ -101,6 +101,8 @@ function change_handler(e){
 	}else{
 		document.querySelector("#out_count").innerHTML = tree_complexity(axiom_input_tree);
 	}
+
+	document.querySelector("#out_eval").innerHTML = tree_print(tree_evaluate(axiom_input_tree));
 
 }
 

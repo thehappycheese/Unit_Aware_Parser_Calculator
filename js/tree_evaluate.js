@@ -39,6 +39,7 @@ function tree_evaluate_unary(tree, leaf_type_a, lambda){
 
 let evaluators = {
 	// leaf nodes
+	"nux":	tree	=> [...tree],
 	"bool":	tree	=> [...tree],
 	"str":	tree	=> [...tree],
 	"sym":	tree	=> [...tree],

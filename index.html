@@ -22,20 +22,21 @@
         <h1>Nick's Knuth-Bendix Completion Algorithm</h1>
 
     </div>
-    <div class="column">
+    <div class="column" style="grid-template-rows: auto auto 1fr auto auto;">
         <h2>Raw Input</h2>
-		<input type="text" id="axiom_input" rows="1" />
-        <div class="green_outline">Depth:<br><span id="out_depth"></span></div>
+		<input type="text" id="axiom_input"/>
+		<div id="raw" class="green_outline" style="overflow-y: scroll;"></div>
         <div class="green_outline">Count:<br><span id="out_count"></span></div>
+		<div class="green_outline">Eval:<br><span id="out_eval"></span></div>
     </div>
-    <div class="column">
+    <div class="column" style="grid-template-rows: auto auto 1fr;">
         <h2>Axioms</h2>
         
         <button onclick="add_axiom()">Add Axiom</button>
-        <div id="raw" class="green_outline" style="overflow-y: scroll;"></div>
+        
         <div id="stage1" class="green_outline" style="overflow-y: scroll;" onclick="axiom_list_click(event)"></div>
     </div>
-    <div class="column">
+    <div class="column" style="grid-template-rows: auto 1fr;">
         <h2>Match</h2>
         <div id="stage2" class="green_outline" style="overflow-y: scroll;"></div>
     </div>
