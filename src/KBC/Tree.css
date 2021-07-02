@@ -1,0 +1,39 @@
+
+.Tree-Func{
+	color:lightskyblue;
+}
+
+.Tree-Num{
+	font-weight: bold;
+	color: lightseagreen;
+	display: inline-block;
+}
+
+.Tree-Sym{
+	font-weight: bold;
+	color: lightcoral;
+	display: inline-block;
+}
+
+.Tree-Str{
+	font-weight: bold;
+	color: lightgreen;
+	display: inline-block;
+}
+
+.Tree-Leaf{
+	color:red;
+	display: inline-block;
+}
+
+.Tree-Print-Err{
+	color:red;
+	display: inline-block;
+}
+
+.Tree-Indent{
+	margin-left: 20px;
+}
+.Tree-Non-Indent{
+	display:inline-block;
+}

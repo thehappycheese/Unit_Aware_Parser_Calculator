@@ -5,14 +5,8 @@
 Thingo = RewriteRule / Term_Logical /// RewriteRule / Term_Addition
 
 
-ConditionList =
-	first:Term_Logical rest:(_ ";" _ Term_Logical)*{
-		return [first, ...rest.map(item=>item[3])];
-	}
-
-
-Relationship = 
-	Relationship_Equal /
+Relationship
+	= Relationship_Equal /
 	Relationship_Not_Equal /
 	Relationship_Less_Than /
 	Relationship_Greater_Than /
@@ -129,7 +123,7 @@ Exponent
 	}
 	/ Factor
 
-Symbol
+Symbol "Symbol"
 	= head:SymbolStart tail:SymbolPart* {
 		return ["sym", [head, ...tail].join("")];
 	}
@@ -138,6 +132,7 @@ SymbolStart
 	= UnicodeLetter
 	/ "$"
 	/ "_"
+
 
 SymbolPart
 	= SymbolStart
@@ -200,7 +195,7 @@ Zs "Separator, Space"
 // Factor_Unit 
 //	= factor:Factor unit:(Unit_Exponent / Non_Prefixable_Unit / Prefixable_Unit) {return ["mul", factor, unit]}
 
-Number
+Number "Number"
 	= [+-]?[0-9]+ ( '.' [0-9]+ )? {
 		return ["num", parseFloat(text())];
 	}
@@ -208,15 +203,15 @@ Number
 _ "whitespace"
 = 	[ \t\n\r]*
 
-Unit_Exponent =
-	unit:Unit_Prefixed exponent:Number{
+Unit_Exponent
+	= unit:Unit_Prefixed exponent:Number{
 		return ["pow", unit, exponent]
 	}
 	/ Unit_Prefixed
 
 Unit_Prefixed
 	= Non_Prefixable_Unit 
-	/ mod:("T"/"G"/"M"/"k"/"m"/"µ"/"n"/"p"/"f") unit:Prefixable_Unit {
+	/ mod:Unit_Prefix unit:Prefixable_Unit {
 		let exponent = {
 			T:12,
 			G:9,
@@ -231,17 +226,21 @@ Unit_Prefixed
 		return ["mul", ["pow", ["num",10], ["num", exponent]], unit];
 	}
 	/ Prefixable_Unit
-	 
-Non_Prefixable_Unit
+
+Unit_Prefix "Prefix"
+	= "T"/"G"/"M"/"k"/"m"/"µ"/"n"/"p"/"f"
+
+Non_Prefixable_Unit "Unit"
 	= Kilogram / Hour
 
-Prefixable_Unit
+Prefixable_Unit "Unit"
 	= Metre / Second / Gram / Ampere / Kelvin / mole / candela / Volt / Ohm / Farrad / Henry / Watt / Celcius
 
 
 
+
 // SI Base Units
-Metre "Metre"
+Metre
 	= "m" {return ["sym","m"]}
 
 Second

@@ -77,7 +77,8 @@ ASTL is designed with the following goals:
 | `["gt",a,b]`    |        a&gt;b        | Tree | Greater Than   | Can only be evaluated to boolean. Solving is not supported. |          |
 | `["eq",a,b]`    |         a=b          | Tree | Equal To       | Can be evaluated to boolean, or used to solve for unknowns. |          |
 |                 |                      |      |                |                                                             |          |
-| `["rew",a,b,c]` | a &#10230; b where c | Tree | Rewrite Rule   | a may be replaced with b where c is true                    |          |
+| `["rew",a,b]`   |     a &#10230; b     | Tree | Rewrite Rule   | a may be replaced with b                                    |          |
+| `["axiom",x,c]` | a &#10230; b where c | Tree | Assert         | x is the `["rew",a,b]` and `c` must evaluate to true                    |          |
 
 ### 4.2. Rewrite Rule
 
