@@ -219,9 +219,7 @@ t_a\ \text{is subsumed by}\ t_b \quad \blue\iff\ \quad t_b = t_a[t_c/x]\\[5mm]
 \end{aligned}
 $$
 
-> Note: **??** I am not sure about the last line of the where statement. I
-> understand that to be the case, but this complexity ordering relationship was
-> not explicit in the youtube video i got it from.
+> Note: **??** I am not sure about the last line of the where statement. surely they must be in this order of reduction ordering.
 
 
 
@@ -239,6 +237,8 @@ Again:
 - $t_a$ can be expressed by substituting some other term ($t_c$ in the example above) into $t_b$
 - $t_a$ is said to be an `instance` of $t_b$
 
+> I don't understand why we need subsumption ordering to exist... Surely the
+> reduction ordering is the same thing?
 ### 4.3. Intersection of terms
 
 Let the notation $t^*$ indicate the infinite set of terms that are `instances` of $t$
@@ -256,7 +256,7 @@ Let the notation $t^*$ indicate the infinite set of terms that are `instances` o
 
 ### 5.1. Definition
 
-Let $R$ be a set of rewrite rules
+Let $R$ be a set of rewrite rules and let $R_n$ refer to the $n^{th}$ rule (since the rules are nessisarily ordered by )
 
 $$
 \begin{aligned}
