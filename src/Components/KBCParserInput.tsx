@@ -63,7 +63,7 @@ get_grammar();
 
 export type KBCParserInputState = {
 	text:string, 
-	tree:tree.LaxTree,
+	tree:tree.TreeOrLeaf,
 	error:peggy.parser.SyntaxError | null
 }
 
@@ -90,19 +90,13 @@ export default function KBCParserInput({value, setValue}:{value:KBCParserInputSt
 		replace_while_typing_rules.map(item=>{
 			[current_value, current_selection_start] = item.do_replace(current_value, current_selection_start ?? current_value.length);
 		})
-		let tree_parsed = ["nux"];
+		let tree_parsed:tree.TreeOrLeaf = ["err", "failed to parse"];
 		let error:peggy.parser.SyntaxError|null = null;
 		
 		try{
 			tree_parsed = parser.parse(current_value)
-			let oop_tree = tree.build_from_parser_output(tree_parsed)
-			debugger
-			console.log(oop_tree)
 		}catch(e){
-			//(e as peggy.parser.SyntaxError).location
-			
-			tree_parsed = ["nux"];
-			error = e;//e.location.start.offset;
+			error = e;
 		}
 		
 		setValue({
