@@ -1,5 +1,5 @@
 {
-
+	console.log(Tree)
 }
 
 Thingo = RewriteRule / Term_Logical /// RewriteRule / Term_Addition

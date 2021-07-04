@@ -69,10 +69,17 @@ class Leaf implements Treeish{
 	count():number{
 		return 1;
 	}
-	print_JSX():JSX.Element{
-		return (
-			<div className={class_names[this.type] ?? class_names.default}>{this.value}</div>
-		);
+	print_JSX(inline=false):JSX.Element{
+		let class_name = class_names[this.type];
+		if (class_name==null){
+			return (
+				<div style={{display:inline?"inline-block":""}}>[<span className="Tree-Function-Name"> {this.type}</span><span className={class_names.default}> {this.value} </span>]</div>
+			);
+		}else{
+			return (
+				<div style={{display:inline?"inline-block":""}} className={class_names[this.type]}>{this.value}</div>
+			);
+		}
 	}
 }
 

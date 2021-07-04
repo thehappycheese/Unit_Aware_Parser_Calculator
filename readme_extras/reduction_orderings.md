@@ -36,6 +36,7 @@
 	- [12.1. Psudo-Code](#121-psudo-code)
 	- [12.2. Possible Outcomes](#122-possible-outcomes)
 	- [12.3. Limitations of KBC](#123-limitations-of-kbc)
+- [Choosing Weights](#choosing-weights)
 
 ## 1. Sources
 
@@ -43,10 +44,11 @@ I gathered these notes (to the best of my own understanding) from this series of
 YouTube videos by the excellent youtuber `jin xing lim`:
 <https://www.youtube.com/watch?v=AP8L3OZxO-k>. Thankyou so much for making those videos.
 
-Probably I should try to find and read the articles referenced in the youtube video as well, but I wanted to do some programming before doing any further research.
-
-I also read various Wikipedia pages such as
+Wikipedia:
 <https://en.wikipedia.org/wiki/Knuth%E2%80%93Bendix_completion_algorithm>
+
+Original description of the algorithim:
+D. Knuth; P. Bendix (1970). J. Leech (ed.). Simple Word Problems in Universal Algebras (PDF). Pergamon Press. pp. 263–297.
 
 ## 2. Notation
 
@@ -479,3 +481,10 @@ x\cdot 0\enspace &\xrightarrow{R_2}\enspace 0\\
 \end{aligned}\\
 $$
 1. The KBC procedure is not goal directed. Generation of critical pairs is based on the rules formed. I am guessing it can generate large volumes of  redundant junk.
+
+
+## Choosing Weights
+Nicks notes from:
+"How to choose the weights in the Knuth Bendix ordering
+Ursula Martin*
+Department of Computer Science The University Manchester MI3 9PL 

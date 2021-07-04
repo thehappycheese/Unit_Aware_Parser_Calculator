@@ -40,6 +40,14 @@ export function * iter_map<T,V>(iter:Iterable<T>, func:(arg:T)=>V):Generator<V>{
 	}
 }
 
+function * take<T>(func:Generator<T>, items:number):Generator<T>{
+	for(let i=0;i<items;i++){
+		let {value, done}= func.next()
+		if(done) return value;
+		yield value;
+	}
+}
+
 // function partition(arr, predicate) {
 // 	let result_true = [];
 // 	let result_false = [];

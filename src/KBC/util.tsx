@@ -7,6 +7,6 @@
  * //[1, "&", 2, "&", 3]
  * ```
  */
-export function intersperse(array:any[], separator:any){
-	return array.reduce((acc,item)=>(acc)?[...acc, separator, item]:[item], null);
+export function intersperse<A, B>(array:A[], separator:B):Array<A|B>{
+	return array.reduce((acc,item)=>acc?[...acc, separator, item]:[item], null as unknown as Array<A|B>);
 }
