@@ -9,15 +9,15 @@ function format_error(state:KBCParserInputState){
 	if(error == null) return "";
 	let len = error.location.end.offset - error.location.start.offset;
 	if(len<2){
-		return new Array(error.location.start.offset).fill("─").join("")+"┚";
+		return new Array(error.location.start.offset).fill("═").join("")+"╛";
 	}else{
-		return new Array(error.location.start.offset).fill("─").join("")+"┺"+
-			new Array(len-1).fill("━").join("")+"┛"
+		return new Array(error.location.start.offset).fill("═").join("")+"╧"+
+			new Array(len-1).fill("═").join("")+"╛"
 	}
 }
 
 function App() {
-	let [kbc1_value, kbc1_set_value] = useState<KBCParserInputState>({text:"", tree:["err", "awaiting input to parse."], error:null})
+	let [kbc1_value, kbc1_set_value] = useState<KBCParserInputState>({text:"", tree:["err", "Awaiting input to parse."], error:null})
 	return (
 		<div className="Index-Panel">
 			<KBCParserInput value={kbc1_value} setValue={kbc1_set_value}/>

@@ -1,18 +1,23 @@
 import { zip } from "./iter";
 import {intersperse} from "./util";
-import "./Tree.css";
+import "./tree.css";
 
-type LeafLiteral = number | string | boolean;
-export type Leaf = [string, LeafLiteral];
 
-export type UnaryTree = [string, Tree | Leaf];
-export type BinaryTree = [string, Tree | Leaf, Tree | Leaf];
+export type LeafTypeName = "num" | "sym" | "str" | "bool" | "err";
+export type UnaryTypeName = "not" | "neg";
+export type BinaryTypeName = "add" | "mul" | "pow" | "and" | "or" | "lt" | "gt" | "eq" | "rew" | "axiom"
+
+export type LeafLiteral = number | string | boolean;
+export type Leaf = [LeafTypeName, LeafLiteral];
+
+export type UnaryTree = [UnaryTypeName, Tree | Leaf];
+export type BinaryTree = [BinaryTypeName, Tree | Leaf, Tree | Leaf];
 export type Tree = UnaryTree | BinaryTree;
 
 export type TreeOrLeaf = Tree | Leaf;
 
 
-export function type(tree: Tree) {
+export function type(tree: Tree | Leaf) {
 	return tree[0];
 }
 
@@ -23,6 +28,11 @@ export function same_type(tree_a: Tree, tree_b: Tree) {
 export function is_leaf(tree: Tree | Leaf): tree is Leaf {
 	return tree.length === 2 && !Array.isArray(tree[1]);
 }
+
+export function is_leaf_type(tree: Tree | Leaf): tree is Leaf {
+	return tree.length === 2 && !Array.isArray(tree[1]);
+}
+
 
 export function is_leaf_literal(tree: Tree | Leaf | LeafLiteral): tree is LeafLiteral {
 	return !Array.isArray(tree);
@@ -59,7 +69,7 @@ export function* walk_post_order_depth(tree: Tree | Leaf, depth: number = 0): Ge
 	if (!is_leaf(tree)) {
 		let [_head, ...tail] = tree;
 		for (let subtree of tail) {
-			yield* walk_pre_order_depth(subtree, depth + 1);
+			yield* walk_post_order_depth(subtree, depth + 1);
 		}
 	}
 	yield [tree, depth];

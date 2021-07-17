@@ -121,7 +121,7 @@ Exponent =
 
 Factor =
 	"(" _ expr:Term_Addition_Subtraction _ ")" { return expr; }
-	/ Unit_Exponent
+	// Unit_Exponent
 	/ Symbol
 	/ Number
 
@@ -207,100 +207,100 @@ Number "Number" =
 _ "whitespace" =
 	[ \t\n\r]*
 
-Unit_Exponent =
-	unit:Unit_Prefixed exponent:Number{
-		return ["pow", unit, exponent]
-	} /
-	Unit_Prefixed
+// Unit_Exponent =
+// 	unit:Unit_Prefixed exponent:Number{
+// 		return ["pow", unit, exponent]
+// 	} /
+// 	Unit_Prefixed
 
-Unit_Prefixed =
-	Non_Prefixable_Unit /
-	mod:Unit_Prefix unit:Prefixable_Unit {
-		let exponent = {
-			T:12,
-			G:9,
-			M:6,
-			k:3,
-			m:-3,
-			µ:-6,
-			n:-9,
-			p:-12,
-			f:-15
-		}[mod];
-		return ["mul", ["pow", ["num",10], ["num", exponent]], unit];
-	} /
-	Prefixable_Unit
+// Unit_Prefixed =
+// 	Non_Prefixable_Unit /
+// 	mod:Unit_Prefix unit:Prefixable_Unit {
+// 		let exponent = {
+// 			T:12,
+// 			G:9,
+// 			M:6,
+// 			k:3,
+// 			m:-3,
+// 			µ:-6,
+// 			n:-9,
+// 			p:-12,
+// 			f:-15
+// 		}[mod];
+// 		return ["mul", ["pow", ["num",10], ["num", exponent]], unit];
+// 	} /
+// 	Prefixable_Unit
 
-Unit_Prefix "Prefix" =
-	"T" /
-	"G" /
-	"M" /
-	"k" /
-	"m" /
-	"µ" /
-	"n" /
-	"p" /
-	"f"
+// Unit_Prefix "Prefix" =
+// 	"T" /
+// 	"G" /
+// 	"M" /
+// 	"k" /
+// 	"m" /
+// 	"µ" /
+// 	"n" /
+// 	"p" /
+// 	"f"
 
-Non_Prefixable_Unit "Unit" =
-	Kilogram /
-	Hour
+// Non_Prefixable_Unit "Unit" =
+// 	Kilogram /
+// 	Hour
 
-Prefixable_Unit "Unit" =
-	Metre /
-	Second /
-	Ampere /
-	Kelvin /
-	mole /
-	candela /
-	Volt /
-	Ohm /
-	Farrad /
-	Henry /
-	Watt /
-	Celcius
+// Prefixable_Unit "Unit" =
+// 	Metre /
+// 	Second /
+// 	Ampere /
+// 	Kelvin /
+// 	mole /
+// 	candela /
+// 	Volt /
+// 	Ohm /
+// 	Farrad /
+// 	Henry /
+// 	Watt /
+// 	Celcius
 
-// SI Base Units
-Metre =
-	"m" {return ["sym","m"]}
+// // SI Base Units
+// Metre =
+// 	"m" {return ["sym","m"]}
 
-Second =
-	"s" {return ["sym","s"]}
+// Second =
+// 	"s" {return ["sym","s"]}
 
-Kilogram =
-	"kg" {return ["sym","kg"]} /
-	"g" {return ["mul",["pow",["num", 10],["num",-3]],["sym","kg"]]}
+// Kilogram =
+// 	"kg" {return ["sym","kg"]} /
+// 	"g" {return ["mul",["pow",["num", 10],["num",-3]],["sym","kg"]]}
 
-Ampere =
-	"A" {return ["sym","A"]}
+// Ampere =
+// 	"A" {return ["sym","A"]}
  
-Kelvin =
-	"K" {return ["sym","K"]}
+// Kelvin =
+// 	"K" {return ["sym","K"]}
 
-mole =
-	"mol" {return ["sym","mol"]}
+// mole =
+// 	"mol" {return ["sym","mol"]}
 
-candela =
-	"cd" {return ["sym","cd"]}
+// candela =
+// 	"cd" {return ["sym","cd"]}
 
-// SI Derived Units
-Hour =
-	"hr" {return ["sym","hr"]}
+// // SI Derived Units
+// Hour =
+// 	"hr" {return ["sym","hr"]}
 
-Volt =
-	"V" {return ["sym","V"]}
+// Volt =
+// 	"V" {return ["sym","V"]}
 
-Ohm =
-	"Ω" {return ["sym","Ω"]}
+// Ohm =
+// 	"Ω" {return ["sym","Ω"]}
 
-Farrad =
-	"F" {return ["sym","F"]}
+// Farrad =
+// 	"F" {return ["sym","F"]}
 
-Henry =
-	"H" {return ["sym","H"]}
+// Henry =
+// 	"H" {return ["sym","H"]}
 
-Watt =
-	"W" {return ["sym","W"]}
+// Watt =
+// 	"W" {return ["sym","W"]}
 
-Celcius =
-	"C" {return ["sym","C"]}
+// Celcius =
+// 	"C" {return ["sym","C"]}
