@@ -8,8 +8,8 @@ Thingo =
 	Term_Addition_Subtraction
 
 RewriteRule =
-	head:Term_Logical _ "⟶" _ tail:Term_Logical cond:(_ "where" _ Term_Logical )? {
-		let result = ["rew", head, tail];
+	head:Term_Addition_Subtraction _ "⟶" _ tail:Term_Addition_Subtraction cond:(_ "where" _ Term_Logical )? {
+		let result = ["axiom", ["rew", head, tail]];
 		if(cond){
 			result.push(cond[3])
 		}else{
@@ -45,9 +45,22 @@ Relationship =
 	Relationship_Less_Than /
 	Relationship_Greater_Than /
 	Relationship_Less_Than_Or_Equal /
-	Relationship_Greater_Than_Or_Equal
+	Relationship_Greater_Than_Or_Equal /
+	BooleanLiteral
 
+BooleanLiteral =
+	True /
+	False
 
+True =
+	"True" {
+		return ["bool", true]
+	}
+
+False =
+	"False" {
+		return ["bool", false]
+	}
 
 Relationship_Equal =
 	head:Term_Addition_Subtraction _ "=" _ tail:Term_Addition_Subtraction {

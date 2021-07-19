@@ -12,14 +12,7 @@ ReactDOM.render(
 					Nick's Knuth-Bendix
 				</h1>
 				<div className="Index-Panel" >
-					<nav>
-						<ul>
-							<li>Merge</li>
-							<li>To GeoJSON</li>
-							<li>To GeoJSON s</li>
-						</ul>
-					</nav>
-					Hey
+					<button>Add to axioms</button>
 				</div>
 			</div>
 			<div id="Index-AppSpace">

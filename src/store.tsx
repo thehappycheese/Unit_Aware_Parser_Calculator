@@ -14,4 +14,3 @@ interface RootStateType {
 }
 
 
-let x = createSlice()

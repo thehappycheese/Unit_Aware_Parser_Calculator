@@ -5,7 +5,7 @@ import "./tree.css";
 
 export type LeafTypeName = "num" | "sym" | "str" | "bool" | "err";
 export type UnaryTypeName = "not" | "neg";
-export type BinaryTypeName = "add" | "mul" | "pow" | "and" | "or" | "lt" | "gt" | "eq" | "rew" | "axiom"
+export type BinaryTypeName = "add" | "mul" | "pow" | "and" | "or" | "lt" | "gt" | "eq" | "rew" | "axiom";
 
 export type LeafLiteral = number | string | boolean;
 export type Leaf = [LeafTypeName, LeafLiteral];
@@ -22,17 +22,17 @@ export function type(tree: Tree | Leaf) {
 }
 
 export function same_type(tree_a: Tree, tree_b: Tree) {
-	return tree_a[0] === tree_b[0]
+	return tree_a[0] === tree_b[0];
 }
 
 export function is_leaf(tree: Tree | Leaf): tree is Leaf {
 	return tree.length === 2 && !Array.isArray(tree[1]);
 }
 
-export function is_leaf_type(tree: Tree | Leaf): tree is Leaf {
-	return tree.length === 2 && !Array.isArray(tree[1]);
+/**Use this function instead of is_leaf if possible as it provides type assertion*/
+export function is_leaf_type(tree: Tree | Leaf, leaf_type:LeafTypeName): tree is Leaf {
+	return tree[0]==leaf_type;
 }
-
 
 export function is_leaf_literal(tree: Tree | Leaf | LeafLiteral): tree is LeafLiteral {
 	return !Array.isArray(tree);

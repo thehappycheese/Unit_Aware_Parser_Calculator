@@ -83,7 +83,7 @@ export default function KBCParserInput({value, setValue}:{value:KBCParserInputSt
 			inputEl.current.selectionEnd = selectionEnd;
 		}
 	);
-	return <input ref={inputEl} type="text" value={value.text} onChange={(e)=>{
+	return <input ref={inputEl} type="text" value={value.text} style={{"width":"100%"}}onChange={(e)=>{
 		
 		let current_selection_start = e.target.selectionStart;
 		let current_value = e.target.value;

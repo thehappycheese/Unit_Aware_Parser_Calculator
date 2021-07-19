@@ -3,6 +3,7 @@ import { useState } from 'react';
 import './App.css';
 import KBCParserInput, { KBCParserInputState } from './Components/KBCParserInput';
 import * as tree from "./KBC/tree"
+import { tree_evaluate } from './KBC/tree_evaluate';
 
 function format_error(state:KBCParserInputState){
 	let {error}=state;
@@ -21,8 +22,7 @@ function App() {
 	return (
 		<div className="Index-Panel">
 			<KBCParserInput value={kbc1_value} setValue={kbc1_set_value}/>
-			<br/>
-			{
+			<p>{
 				kbc1_value.error
 				? 
 				<pre>{
@@ -32,7 +32,10 @@ function App() {
 				}</pre>
 				:
 				<div>{tree.print_JSX(kbc1_value.tree)}</div>
-			}
+			}</p>
+			<p>{
+				tree.print_JSX(tree_evaluate(kbc1_value.tree))
+			}</p>
 		</div>
 	);
 }

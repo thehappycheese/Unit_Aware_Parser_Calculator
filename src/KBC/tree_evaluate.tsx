@@ -10,53 +10,50 @@ export function tree_evaluate(tree: Tree.TreeOrLeaf): Tree.TreeOrLeaf {
 
 }
 
-// function tree_evaluate_binary_match(tree:Tree|Leaf, lambdas){
-// 	let a = tree_evaluate(tree[1]);
-// 	let b = tree_evaluate(tree[2]);
-// 	for(let [leaf_type_a, leaf_type_b, lambda] of lambdas){
-// 		if(tree_type(a)==leaf_type_a && tree_type(b)==leaf_type_b){
-// 			return lambda(a[1], b[1])
-// 		}
-// 	}
-// 	return [tree_type(tree), a, b]
-// }
 
-function tree_evaluate_binary(tree: Tree.BinaryTree, leaf_type_a: Tree.LeafTypeName, leaf_type_b:Tree.LeafTypeName, lambda: (a: Tree.Leaf, b: Tree.Leaf) => Tree.Leaf) {
+function tree_evaluate_binary(tree: Tree.BinaryTree, leaf_type_a: Tree.LeafTypeName, leaf_type_b: Tree.LeafTypeName, lambda: (a: Tree.LeafLiteral, b: Tree.LeafLiteral) => Tree.Leaf): Tree.TreeOrLeaf {
 	let a = tree_evaluate(tree[1]);
 	let b = tree_evaluate(tree[2]);
-	if (Tree.type(a) == leaf_type_a && Tree.type(b) == leaf_type_b) {
-		a
+	if (Tree.is_leaf_type(a, leaf_type_a) && Tree.is_leaf_type(b, leaf_type_b)) {
 		return lambda(a[1], b[1])
 	} else {
-		return [Tree.type(tree), a, b]
+		return [tree[0], a, b]
 	}
 }
-function tree_evaluate_unary(tree: Tree.UnaryTree, leaf_type_a: string, lambda: (a: Tree.Leaf) => Tree.Leaf) {
+
+
+function tree_evaluate_unary(tree: Tree.UnaryTree, leaf_type: Tree.LeafTypeName, lambda: (a: Tree.LeafLiteral) => Tree.Leaf): Tree.TreeOrLeaf {
 	let a = tree_evaluate(tree[1]);
-	if (a[0] == leaf_type_a) {
+	if (Tree.is_leaf_type(a, leaf_type)) {
 		return lambda(a[1])
 	} else {
-		return [Tree.type(tree), a]
+		return [tree[0], a]
 	}
 }
 
-let evaluators: Record<string, (tree: Tree.TreeOrLeaf) => Tree.TreeOrLeaf> = {
-	// leaf nodes
-	"nux": tree => [...tree],
-	"bool": tree => [...tree],
-	"str": tree => [...tree],
-	"sym": tree => [...tree],
-	"num": tree => [...tree],
 
-	"pow": tree => tree_evaluate_binary(tree, "num", "num", (a, b) => ["num", a ** b]),
-	"mul": tree => tree_evaluate_binary(tree, "num", "num", (a, b) => ["num", a * b]),
-	"neg": tree => tree_evaluate_unary(tree, "num", "num", (a) => ["num", -a]),
-	"add": tree => tree_evaluate_binary(tree, "num", "num", (a, b) => ["num", a + b]),
-	"not": tree => tree_evaluate_unary(tree, "bool", "bool", (a) => ["bool", !a]),
-	"and": tree => tree_evaluate_binary(tree, "bool", "bool", (a, b) => ["bool", a && b]),
-	"or": tree => tree_evaluate_binary(tree, "bool", "bool", (a, b) => ["bool", a || b]),
-	"lt": tree => tree_evaluate_binary(tree, "num", "num", (a, b) => ["bool", a < b]),
-	"gt": tree => tree_evaluate_binary(tree, "num", "num", (a, b) => ["bool", a > b]),
-	"eq": tree => tree_evaluate_binary(tree, "num", "num", (a, b) => ["bool", a === b]),
+let evaluators: Record<
+	Tree.LeafTypeName | Tree.UnaryTypeName | Tree.BinaryTypeName,
+	(tree: Tree.TreeOrLeaf) => Tree.TreeOrLeaf
+> = {
+
+	"bool":  tree => Tree.copy(tree),
+	"str":   tree => [...tree],
+	"err":   tree => [...tree],
+	"sym":   tree => [...tree],
+	"num":   tree => [...tree],
+	"rew":   tree => ["err", "Cannot evaluate an 'rew' tree"],
+	"axiom": tree => ["err", "Cannot evaluate an 'axiom' tree"],
+
+	"pow": tree => tree_evaluate_binary(tree as Tree.BinaryTree, "num",	"num",	(a, b) => ["num",	a as number ** (b as number)]),
+	"mul": tree => tree_evaluate_binary(tree as Tree.BinaryTree, "num",	"num",	(a, b) => ["num",	a as number *  (b as number)]),
+	"neg": tree => tree_evaluate_unary (tree as Tree.UnaryTree,  "num",			(a   ) => ["num",	-a                          ]),
+	"add": tree => tree_evaluate_binary(tree as Tree.BinaryTree, "num",	"num",	(a, b) => ["num",	a as number +  (b as number)]),
+	"not": tree => tree_evaluate_unary (tree as Tree.UnaryTree,  "bool",		(a   ) => ["bool",	!a     ]),
+	"and": tree => tree_evaluate_binary(tree as Tree.BinaryTree, "bool","bool",	(a, b) => ["bool",	a && b ]),
+	"or":  tree => tree_evaluate_binary(tree as Tree.BinaryTree, "bool","bool",	(a, b) => ["bool",	a || b ]),
+	"lt":  tree => tree_evaluate_binary(tree as Tree.BinaryTree, "num",	"num",	(a, b) => ["bool",	a < b  ]),
+	"gt":  tree => tree_evaluate_binary(tree as Tree.BinaryTree, "num",	"num",	(a, b) => ["bool",	a > b  ]),
+	"eq":  tree => tree_evaluate_binary(tree as Tree.BinaryTree, "num",	"num",	(a, b) => ["bool",	a === b]),
 
 }
